@@ -5,6 +5,22 @@ use App\Models\UsersModel;
  
 class Account extends Controller
 {
+
+    //CREATE USERS DATABASE
+    public function setupdb(){
+        $model = new UsersModel();
+        $success = $model->initialize_database();
+        $data['title'] = ucfirst('create database');
+        echo view('templates/header', $data);
+        echo view('templates/nav', $data);
+        if ($success){
+            echo view('pages/dbcreated');
+        } else {
+            echo view('pages/dbcreatefailed');
+        }
+        echo view('templates/footer', $data);
+    }
+
     //CREATE USER
     public function create()
     {  
@@ -53,6 +69,18 @@ class Account extends Controller
 
     }
     public function authenticate(){
-        //TODO
+        $username = $this->request->getVar('username');
+        $password = $this->request->getVar('password');
+        $data['title'] = ucfirst('login');
+        echo view('templates/header', $data);
+        echo view('templates/nav', $data);
+        $model = new UsersModel();
+        $success = $model->check_credentials($username, $password);
+        if ($success){
+            echo view('pages/loginsuccess');
+        } else {
+            echo view('pages/loginfailure');
+        }
+        echo view('templates/footer', $data);
     }
 }

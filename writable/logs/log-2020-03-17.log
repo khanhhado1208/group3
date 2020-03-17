@@ -1,0 +1,228 @@
+CRITICAL - 2020-03-17 04:00:03 --> syntax error, unexpected 'echo' (T_ECHO), expecting ',' or ';'
+#0 /var/www/html/group3/system/Router/Router.php(192): CodeIgniter\Router\Router->autoRoute('account/authent...')
+#1 /var/www/html/group3/system/CodeIgniter.php(785): CodeIgniter\Router\Router->handle('account/authent...')
+#2 /var/www/html/group3/system/CodeIgniter.php(358): CodeIgniter\CodeIgniter->tryToRouteIt(Object(CodeIgniter\Router\RouteCollection))
+#3 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2020-03-17 04:00:08 --> syntax error, unexpected 'echo' (T_ECHO), expecting ',' or ';'
+#0 /var/www/html/group3/system/Router/Router.php(192): CodeIgniter\Router\Router->autoRoute('account/create')
+#1 /var/www/html/group3/system/CodeIgniter.php(785): CodeIgniter\Router\Router->handle('account/create')
+#2 /var/www/html/group3/system/CodeIgniter.php(358): CodeIgniter\CodeIgniter->tryToRouteIt(Object(CodeIgniter\Router\RouteCollection))
+#3 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2020-03-17 04:06:25 --> syntax error, unexpected ';'
+#0 /var/www/html/group3/system/Autoloader/Autoloader.php(296): CodeIgniter\Autoloader\Autoloader->requireFile('/var/www/html/g...')
+#1 /var/www/html/group3/system/Autoloader/Autoloader.php(258): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Models\\User...')
+#2 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Models\\User...')
+#3 /var/www/html/group3/app/Controllers/Account.php(77): spl_autoload_call('App\\Models\\User...')
+#4 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->authenticate()
+#5 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#6 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#8 {main}
+CRITICAL - 2020-03-17 04:07:20 --> syntax error, unexpected 'return' (T_RETURN)
+#0 /var/www/html/group3/system/Autoloader/Autoloader.php(296): CodeIgniter\Autoloader\Autoloader->requireFile('/var/www/html/g...')
+#1 /var/www/html/group3/system/Autoloader/Autoloader.php(258): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Models\\User...')
+#2 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Models\\User...')
+#3 /var/www/html/group3/app/Controllers/Account.php(77): spl_autoload_call('App\\Models\\User...')
+#4 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->authenticate()
+#5 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#6 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#8 {main}
+CRITICAL - 2020-03-17 04:08:01 --> Call to a member function row() on array
+#0 /var/www/html/group3/app/Controllers/Account.php(78): App\Models\UsersModel->check_credentials('user', 'user')
+#1 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->authenticate()
+#2 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#3 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2020-03-17 04:09:15 --> Call to undefined method CodeIgniter\Database\MySQLi\Result::first_row()
+#0 /var/www/html/group3/app/Controllers/Account.php(78): App\Models\UsersModel->check_credentials('user', 'user')
+#1 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->authenticate()
+#2 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#3 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2020-03-17 04:09:38 --> Call to undefined method CodeIgniter\Database\MySQLi\Result::row_array()
+#0 /var/www/html/group3/app/Controllers/Account.php(78): App\Models\UsersModel->check_credentials('user', 'user')
+#1 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->authenticate()
+#2 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#3 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2020-03-17 04:10:16 --> Call to undefined method CodeIgniter\Database\MySQLi\Result::row()
+#0 /var/www/html/group3/app/Controllers/Account.php(78): App\Models\UsersModel->check_credentials('user', 'user')
+#1 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->authenticate()
+#2 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#3 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2020-03-17 04:11:00 --> Call to undefined method CodeIgniter\Database\MySQLi\Result::row()
+#0 /var/www/html/group3/app/Controllers/Account.php(78): App\Models\UsersModel->check_credentials('user', 'user')
+#1 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->authenticate()
+#2 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#3 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2020-03-17 04:12:00 --> Undefined property: CodeIgniter\Database\MySQLi\Result::$result
+#0 /var/www/html/group3/app/Models/UsersModel.php(29): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined prope...', '/var/www/html/g...', 29, Array)
+#1 /var/www/html/group3/app/Controllers/Account.php(78): App\Models\UsersModel->check_credentials('user', 'user')
+#2 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->authenticate()
+#3 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#4 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#6 {main}
+CRITICAL - 2020-03-17 04:13:17 --> Array to string conversion
+#0 /var/www/html/group3/app/Models/UsersModel.php(30): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Array to string...', '/var/www/html/g...', 30, Array)
+#1 /var/www/html/group3/app/Controllers/Account.php(78): App\Models\UsersModel->check_credentials('user', 'user')
+#2 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->authenticate()
+#3 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#4 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#6 {main}
+CRITICAL - 2020-03-17 04:16:54 --> Undefined property: stdClass::$password
+#0 /var/www/html/group3/app/Models/UsersModel.php(32): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined prope...', '/var/www/html/g...', 32, Array)
+#1 /var/www/html/group3/app/Controllers/Account.php(78): App\Models\UsersModel->check_credentials('herra', 'isso')
+#2 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->authenticate()
+#3 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#4 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#6 {main}
+CRITICAL - 2020-03-17 04:17:10 --> Undefined property: stdClass::$password
+#0 /var/www/html/group3/app/Models/UsersModel.php(32): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined prope...', '/var/www/html/g...', 32, Array)
+#1 /var/www/html/group3/app/Controllers/Account.php(78): App\Models\UsersModel->check_credentials('herra', 'iso')
+#2 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->authenticate()
+#3 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#4 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#6 {main}
+CRITICAL - 2020-03-17 04:17:31 --> Cannot use object of type stdClass as array
+#0 /var/www/html/group3/app/Controllers/Account.php(78): App\Models\UsersModel->check_credentials('herra', 'iso')
+#1 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->authenticate()
+#2 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#3 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2020-03-17 04:18:18 --> Call to undefined method CodeIgniter\Database\MySQLi\Result::result_array()
+#0 /var/www/html/group3/app/Controllers/Account.php(78): App\Models\UsersModel->check_credentials('herra', 'iso')
+#1 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->authenticate()
+#2 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#3 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2020-03-17 04:19:31 --> Undefined index: password
+#0 /var/www/html/group3/app/Models/UsersModel.php(32): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined index...', '/var/www/html/g...', 32, Array)
+#1 /var/www/html/group3/app/Controllers/Account.php(78): App\Models\UsersModel->check_credentials('herra', 'iso')
+#2 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->authenticate()
+#3 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#4 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#6 {main}
+CRITICAL - 2020-03-17 04:21:21 --> count(): Parameter must be an array or an object that implements Countable
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'count(): Parame...', '/var/www/html/g...', 30, Array)
+#1 /var/www/html/group3/app/Models/UsersModel.php(30): count(Object(stdClass))
+#2 /var/www/html/group3/app/Controllers/Account.php(78): App\Models\UsersModel->check_credentials('herra', 'iso')
+#3 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->authenticate()
+#4 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#5 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2020-03-17 04:22:09 --> Undefined variable: result
+#0 /var/www/html/group3/app/Models/UsersModel.php(31): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined varia...', '/var/www/html/g...', 31, Array)
+#1 /var/www/html/group3/app/Controllers/Account.php(78): App\Models\UsersModel->check_credentials('herra', 'iso')
+#2 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->authenticate()
+#3 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#4 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#6 {main}
+CRITICAL - 2020-03-17 04:22:22 --> Cannot use object of type stdClass as array
+#0 /var/www/html/group3/app/Controllers/Account.php(78): App\Models\UsersModel->check_credentials('herra', 'iso')
+#1 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->authenticate()
+#2 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#3 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2020-03-17 04:24:00 --> syntax error, unexpected ';'
+#0 /var/www/html/group3/system/Autoloader/Autoloader.php(296): CodeIgniter\Autoloader\Autoloader->requireFile('/var/www/html/g...')
+#1 /var/www/html/group3/system/Autoloader/Autoloader.php(258): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Models\\User...')
+#2 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Models\\User...')
+#3 /var/www/html/group3/app/Controllers/Account.php(77): spl_autoload_call('App\\Models\\User...')
+#4 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->authenticate()
+#5 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#6 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#8 {main}
+CRITICAL - 2020-03-17 04:24:15 --> Undefined property: stdClass::$password
+#0 /var/www/html/group3/app/Models/UsersModel.php(31): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined prope...', '/var/www/html/g...', 31, Array)
+#1 /var/www/html/group3/app/Controllers/Account.php(78): App\Models\UsersModel->check_credentials('herra', 'iso')
+#2 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->authenticate()
+#3 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#4 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#6 {main}
+CRITICAL - 2020-03-17 04:26:12 --> Object of class stdClass could not be converted to string
+#0 /var/www/html/group3/app/Models/UsersModel.php(32): CodeIgniter\Debug\Exceptions->errorHandler(4096, 'Object of class...', '/var/www/html/g...', 32, Array)
+#1 /var/www/html/group3/app/Controllers/Account.php(78): App\Models\UsersModel->check_credentials('herra', 'iso')
+#2 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->authenticate()
+#3 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#4 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#6 {main}
+CRITICAL - 2020-03-17 04:30:32 --> Undefined property: stdClass::$aser
+#0 /var/www/html/group3/app/Models/UsersModel.php(31): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined prope...', '/var/www/html/g...', 31, Array)
+#1 /var/www/html/group3/app/Controllers/Account.php(78): App\Models\UsersModel->check_credentials('user', 'aser')
+#2 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->authenticate()
+#3 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#4 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#6 {main}
+CRITICAL - 2020-03-17 04:30:51 --> Undefined property: stdClass::$password
+#0 /var/www/html/group3/app/Models/UsersModel.php(31): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined prope...', '/var/www/html/g...', 31, Array)
+#1 /var/www/html/group3/app/Controllers/Account.php(78): App\Models\UsersModel->check_credentials('user', 'aser')
+#2 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->authenticate()
+#3 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#4 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#6 {main}
+CRITICAL - 2020-03-17 04:34:45 --> Table 'db.users' doesn't exist
+#0 /var/www/html/group3/system/Database/MySQLi/Connection.php(330): mysqli->query('SELECT * FROM u...')
+#1 /var/www/html/group3/system/Database/BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT * FROM u...')
+#2 /var/www/html/group3/system/Database/BaseConnection.php(666): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT * FROM u...')
+#3 /var/www/html/group3/app/Models/UsersModel.php(28): CodeIgniter\Database\BaseConnection->query('SELECT * FROM u...')
+#4 /var/www/html/group3/app/Controllers/Account.php(78): App\Models\UsersModel->check_credentials('user', 'aisurer')
+#5 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->authenticate()
+#6 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#7 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2020-03-17 05:06:02 --> Invalid file: {0}
+#0 /var/www/html/group3/system/View/View.php(224): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('account.php')
+#1 /var/www/html/group3/system/Common.php(1071): CodeIgniter\View\View->render('account', Array, true)
+#2 /var/www/html/group3/app/Controllers/Account.php(16): view('account')
+#3 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->index()
+#4 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#5 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2020-03-17 05:06:12 --> Invalid file: {0}
+#0 /var/www/html/group3/system/View/View.php(224): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('account.php')
+#1 /var/www/html/group3/system/Common.php(1071): CodeIgniter\View\View->render('account', Array, true)
+#2 /var/www/html/group3/app/Controllers/Account.php(16): view('account')
+#3 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->index()
+#4 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#5 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2020-03-17 05:11:07 --> Undefined variable: username
+#0 /var/www/html/group3/app/Views/pages/account.php(5): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined varia...', '/var/www/html/g...', 5, Array)
+#1 /var/www/html/group3/system/View/View.php(236): include('/var/www/html/g...')
+#2 /var/www/html/group3/system/Common.php(1071): CodeIgniter\View\View->render('pages/account', Array, true)
+#3 /var/www/html/group3/app/Controllers/Account.php(16): view('pages/account')
+#4 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->index()
+#5 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#6 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#8 {main}

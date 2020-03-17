@@ -5,6 +5,21 @@ use App\Models\UsersModel;
  
 class Account extends Controller
 {
+    //ACCOUNT PANEL
+    public function index() {
+        $session = \Config\Services::session();
+        $data['title'] = ucfirst('account');
+        echo view('templates/header', $data);
+        echo view('templates/nav', $data);
+        if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
+            $data['username'] = $_SESSION['username'];
+            echo view('pages/account', $data);
+        } else {
+            echo "You are not currently logged in";
+          }
+
+        echo view('templates/footer', $data);
+    }
 
     //CREATE USERS DATABASE
     public function setupdb(){
@@ -57,7 +72,7 @@ class Account extends Controller
         
                 $model->save([
                     'username' => $this->request->getVar('username'),
-                    'password'  => $this->request->getVar('password'),
+                    'password'  => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT)
                 ]);
                 $data['title'] = ucfirst('success');
                 echo view('templates/header', $data);
@@ -68,6 +83,8 @@ class Account extends Controller
         }
 
     }
+
+    //AUTHENTICATE USER
     public function authenticate(){
         $username = $this->request->getVar('username');
         $password = $this->request->getVar('password');
@@ -82,5 +99,13 @@ class Account extends Controller
             echo view('pages/loginfailure');
         }
         echo view('templates/footer', $data);
+    }
+
+    //LOGOUT USER
+    public function logout(){
+        $session = \Config\Services::session();
+        unset($_SESSION['logged_in']);
+        unset($_SESSION['username']);
+        return redirect()->to('/'); 
     }
 }

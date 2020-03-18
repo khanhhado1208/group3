@@ -23,7 +23,7 @@ class Account extends Controller
         if ($success){
             return redirect()->to('/dbcreated');
         } else {
-            return redirect()->to('/dbcreatefailed');
+            $this->error('Unable to create table!', 'createdb');
         }
     }
 
@@ -41,7 +41,7 @@ class Account extends Controller
  
         //CHECK IF USER EXIST
         if ($model->user_exists($this->request->getVar('username'))) {
-            return redirect()->to('/failadd'); 
+            $this->error('User already exists!', 'register');
         } else {
             if (!$val)
             {
@@ -71,7 +71,7 @@ class Account extends Controller
         if ($success){
             return redirect()->to('/loginsuccess'); 
         } else {
-            return redirect()->to('/loginfailure'); 
+            $this->error('Login Failed!', 'login');
         }
     }
 
@@ -81,5 +81,14 @@ class Account extends Controller
         unset($_SESSION['logged_in']);
         unset($_SESSION['username']);
         return redirect()->to('/'); 
+    }
+
+    //ACCOUNT CONTROLLER ERROR HANDLER
+    public function error($message, $redirect){
+        $base = base_url();
+        echo '<script type="text/javascript">
+            alert("ERROR: '.$message.'");
+            window.location.href = "'.$base.'/'.$redirect.'";
+            </script>';
     }
 }

@@ -2,23 +2,18 @@
  
 use CodeIgniter\Controller;
 use App\Models\UsersModel;
+use App\Controllers\Pages;
  
 class Account extends Controller
 {
     //ACCOUNT PANEL
     public function index() {
         $session = \Config\Services::session();
-        $data['title'] = ucfirst('account');
-        echo view('templates/header', $data);
-        echo view('templates/nav', $data);
         if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
-            $data['username'] = $_SESSION['username'];
-            echo view('pages/account', $data);
+            return redirect()->to('/dashboard'); 
         } else {
-            echo "You are not currently logged in";
+            return redirect()->to('/'); 
           }
-
-        echo view('templates/footer', $data);
     }
 
     //CREATE USERS DATABASE
@@ -50,21 +45,11 @@ class Account extends Controller
  
         //CHECK IF USER EXIST
         if ($model->user_exists($this->request->getVar('username'))) {
-            $data['title'] = ucfirst('failadd');
-            echo view('templates/header', $data);
-            echo view('templates/nav', $data);
-            echo view('pages/failadd');
-            echo view('templates/footer', $data);
+            return redirect()->to('/failadd'); 
         } else {
             if (!$val)
             {
-                $data['title'] = ucfirst('register');
-                echo view('templates/header', $data);
-                echo view('templates/nav', $data);
-                echo view('pages/register', [
-                    'validation' => $this->validator
-                ]);
-                echo view('templates/footer', $data);
+                return redirect()->to('/register'); 
     
             }
             else
@@ -75,10 +60,7 @@ class Account extends Controller
                     'password'  => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT)
                 ]);
                 $data['title'] = ucfirst('success');
-                echo view('templates/header', $data);
-                echo view('templates/nav', $data);
-                echo view('pages/success');
-                echo view('templates/footer', $data);
+                return redirect()->to('/success'); 
             }
         }
 
@@ -88,17 +70,13 @@ class Account extends Controller
     public function authenticate(){
         $username = $this->request->getVar('username');
         $password = $this->request->getVar('password');
-        $data['title'] = ucfirst('login');
-        echo view('templates/header', $data);
-        echo view('templates/nav', $data);
         $model = new UsersModel();
         $success = $model->check_credentials($username, $password);
         if ($success){
-            echo view('pages/loginsuccess');
+            return redirect()->to('/loginsuccess'); 
         } else {
-            echo view('pages/loginfailure');
+            return redirect()->to('/loginfailure'); 
         }
-        echo view('templates/footer', $data);
     }
 
     //LOGOUT USER

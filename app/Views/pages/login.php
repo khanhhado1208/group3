@@ -8,18 +8,18 @@
  
           <div class="form-group">
             <label for="formGroupExampleInput">Username</label>
-            <input type="text" name="username" class="form-control" id="formGroupExampleInput" placeholder="Please enter username">
+            <input type="text" name="username" class="form-control" id="formGroupExampleInput" placeholder="Please enter your username">
              
           </div> 
  
           <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" name="password" class="form-control" id="password" placeholder="Please enter password">
+            <input type="password" name="password" class="form-control" id="password" placeholder="Please enter your password">
              
           </div>
  
           <div class="form-group">
-           <button type="submit" id="send_form" class="btn btn-success">Submit</button>
+           <button type="submit" id="send_form" class="btn btn-success">Log in</button>
           </div>
         </form>
       </div>

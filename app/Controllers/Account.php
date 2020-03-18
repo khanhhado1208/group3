@@ -20,15 +20,11 @@ class Account extends Controller
     public function setupdb(){
         $model = new UsersModel();
         $success = $model->initialize_database();
-        $data['title'] = ucfirst('create database');
-        echo view('templates/header', $data);
-        echo view('templates/nav', $data);
         if ($success){
-            echo view('pages/dbcreated');
+            return redirect()->to('/dbcreated');
         } else {
-            echo view('pages/dbcreatefailed');
+            return redirect()->to('/dbcreatefailed');
         }
-        echo view('templates/footer', $data);
     }
 
     //CREATE USER

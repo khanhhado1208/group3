@@ -18,7 +18,7 @@
         if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
             
         } else {
-            if ($page == 'register' || $page == 'login' || $page == 'success' || $page == 'createdb') {
+            if ($page == ('register' || 'login' || 'success' || 'createdb' || 'dbcreated' || 'dbcreatefailed' || 'loginsuccess' || 'loginfailure' || 'failadd')) {
 
             } else {
                 $page = 'home';

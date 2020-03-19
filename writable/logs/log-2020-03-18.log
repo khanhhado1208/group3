@@ -1,0 +1,85 @@
+CRITICAL - 2020-03-18 10:09:28 --> Argument 2 passed to CodeIgniter\HTTP\RedirectResponse::to() must be of the type integer or null, array given, called in /var/www/html/group3/app/Controllers/Account.php on line 27
+#0 /var/www/html/group3/app/Controllers/Account.php(27): CodeIgniter\HTTP\RedirectResponse->to('/error', Array)
+#1 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->setupdb()
+#2 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#3 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2020-03-18 10:09:31 --> Argument 2 passed to CodeIgniter\HTTP\RedirectResponse::to() must be of the type integer or null, array given, called in /var/www/html/group3/app/Controllers/Account.php on line 27
+#0 /var/www/html/group3/app/Controllers/Account.php(27): CodeIgniter\HTTP\RedirectResponse->to('/error', Array)
+#1 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->setupdb()
+#2 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#3 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2020-03-18 10:12:54 --> Argument 2 passed to CodeIgniter\HTTP\RedirectResponse::to() must be of the type integer or null, array given, called in /var/www/html/group3/app/Controllers/Account.php on line 27
+#0 /var/www/html/group3/app/Controllers/Account.php(27): CodeIgniter\HTTP\RedirectResponse->to('/error', Array)
+#1 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->setupdb()
+#2 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#3 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2020-03-18 14:32:23 --> Call to undefined function App\Controllers\error()
+#0 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->setupdb()
+#1 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#2 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#3 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#4 {main}
+CRITICAL - 2020-03-18 14:32:27 --> Call to undefined function App\Controllers\error()
+#0 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->setupdb()
+#1 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#2 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#3 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#4 {main}
+CRITICAL - 2020-03-18 14:35:50 --> Undefined variable: message
+#0 /var/www/html/group3/app/Controllers/Account.php(26): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined varia...', '/var/www/html/g...', 26, Array)
+#1 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->setupdb()
+#2 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#3 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2020-03-18 14:41:02 --> Call to undefined function App\Controllers\error()
+#0 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->setupdb()
+#1 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#2 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#3 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#4 {main}
+CRITICAL - 2020-03-18 14:49:23 --> syntax error, unexpected 'echo' (T_ECHO)
+#0 /var/www/html/group3/system/Router/Router.php(192): CodeIgniter\Router\Router->autoRoute('account/setupdb')
+#1 /var/www/html/group3/system/CodeIgniter.php(785): CodeIgniter\Router\Router->handle('account/setupdb')
+#2 /var/www/html/group3/system/CodeIgniter.php(358): CodeIgniter\CodeIgniter->tryToRouteIt(Object(CodeIgniter\Router\RouteCollection))
+#3 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2020-03-18 14:49:33 --> syntax error, unexpected '.'
+#0 /var/www/html/group3/system/Router/Router.php(192): CodeIgniter\Router\Router->autoRoute('account/setupdb')
+#1 /var/www/html/group3/system/CodeIgniter.php(785): CodeIgniter\Router\Router->handle('account/setupdb')
+#2 /var/www/html/group3/system/CodeIgniter.php(358): CodeIgniter\CodeIgniter->tryToRouteIt(Object(CodeIgniter\Router\RouteCollection))
+#3 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2020-03-18 14:58:12 --> syntax error, unexpected '}'
+#0 /var/www/html/group3/system/Router/Router.php(192): CodeIgniter\Router\Router->autoRoute('account/create')
+#1 /var/www/html/group3/system/CodeIgniter.php(785): CodeIgniter\Router\Router->handle('account/create')
+#2 /var/www/html/group3/system/CodeIgniter.php(358): CodeIgniter\CodeIgniter->tryToRouteIt(Object(CodeIgniter\Router\RouteCollection))
+#3 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2020-03-18 15:04:19 --> Too few arguments to function App\Controllers\Account::error(), 1 passed in /var/www/html/group3/app/Controllers/Account.php on line 74 and exactly 2 expected
+#0 /var/www/html/group3/app/Controllers/Account.php(74): App\Controllers\Account->error('Login Failed!')
+#1 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->authenticate()
+#2 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#3 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2020-03-18 15:11:57 --> Table 'db.users' doesn't exist
+#0 /var/www/html/group3/system/Database/MySQLi/Connection.php(330): mysqli->query('SELECT 1 FROM u...')
+#1 /var/www/html/group3/system/Database/BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT 1 FROM u...')
+#2 /var/www/html/group3/system/Database/BaseConnection.php(666): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT 1 FROM u...')
+#3 /var/www/html/group3/app/Models/UsersModel.php(16): CodeIgniter\Database\BaseConnection->query('SELECT 1 FROM u...')
+#4 /var/www/html/group3/app/Controllers/Account.php(43): App\Models\UsersModel->user_exists('user')
+#5 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->create()
+#6 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#7 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#9 {main}

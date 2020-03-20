@@ -18,16 +18,84 @@ class Account extends Controller
           }
     }
 
-    //CREATE USERS DATABASE
+    //TOP UP
+    public function topup() {
+        $pageHandler = new Pages;
+        $model = new UsersModel();
+        $session = \Config\Services::session();
+
+        if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
+            $username = $_SESSION['username'];
+            $amount = $this->request->getVar('amount');
+            $success = $model->money_transaction($username, $amount, "Deposit");
+            if ($success) {
+                $this->setErrorState('success', 'Account balance updated');
+                $pageHandler->get('home');
+            } else {
+                $this->setErrorState('error', 'Unable to deposit funds');
+                $pageHandler->get('home');
+            }
+        } else {
+            $this->setErrorState('error', 'Not signed in');
+            $pageHandler->get('home');
+        }
+    }
+
+    //WITHDRAW
+    public function withdraw() {
+        $pageHandler = new Pages;
+        $model = new UsersModel();
+        $session = \Config\Services::session();
+
+        if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
+            $username = $_SESSION['username'];
+            $amount = $this->request->getVar('amount');
+            $current_funds = $model->check_balance($username);
+            if ($current_funds < $amount) {
+                $this->setErrorState('error', 'Insufficient funds');
+                $pageHandler->get('home');
+            } else {
+                $success = $model->money_transaction($username, -$amount, "Withdrawal");
+                if ($success) {
+                    $this->setErrorState('success', 'Account balance updated');
+                    $pageHandler->get('home');
+                } else {
+                    $this->setErrorState('error', 'Unable to deposit funds');
+                    $pageHandler->get('home');
+                }
+            }
+        } else {
+            $this->setErrorState('error', 'Not signed in');
+            $pageHandler->get('home');
+        }
+
+    }
+
+
+    //CREATE DATABASE TABLES
     public function setupdb(){
         $pageHandler = new Pages;
         $model = new UsersModel();
         $success = $model->initialize_database();
         if ($success){
-            $this->setErrorState('success', 'Table was created');
+            $this->setErrorState('success', 'Tables created');
             $pageHandler->get('home');
         } else {
-            $this->setErrorState('error', 'Table not created');
+            $this->setErrorState('error', 'Tables not created');
+            $pageHandler->get('home');
+        }
+    }
+
+    //REMOVE DATABASE TABLES
+    public function dropdb(){
+        $pageHandler = new Pages;
+        $model = new UsersModel();
+        $success = $model->drop_db_tables();
+        if ($success){
+            $this->setErrorState('success', 'Tables removed');
+            $pageHandler->get('home');
+        } else {
+            $this->setErrorState('error', 'Error while removing tables');
             $pageHandler->get('home');
         }
     }

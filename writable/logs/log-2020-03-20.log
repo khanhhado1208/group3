@@ -1,0 +1,28 @@
+CRITICAL - 2020-03-20 04:56:13 --> syntax error, unexpected '}', expecting ';'
+#0 /var/www/html/group3/system/Autoloader/Autoloader.php(296): CodeIgniter\Autoloader\Autoloader->requireFile('/var/www/html/g...')
+#1 /var/www/html/group3/system/Autoloader/Autoloader.php(258): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Models\\User...')
+#2 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Models\\User...')
+#3 /var/www/html/group3/app/Controllers/Account.php(24): spl_autoload_call('App\\Models\\User...')
+#4 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->setupdb()
+#5 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#6 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#8 {main}
+CRITICAL - 2020-03-20 06:14:21 --> You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'drop table users;"' at line 1
+#0 /var/www/html/group3/system/Database/MySQLi/Connection.php(330): mysqli->query('SELECT 1 FROM u...')
+#1 /var/www/html/group3/system/Database/BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT 1 FROM u...')
+#2 /var/www/html/group3/system/Database/BaseConnection.php(666): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT 1 FROM u...')
+#3 /var/www/html/group3/app/Models/UsersModel.php(32): CodeIgniter\Database\BaseConnection->query('SELECT 1 FROM u...')
+#4 /var/www/html/group3/app/Controllers/Account.php(85): App\Models\UsersModel->user_exists('user"; drop tab...')
+#5 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->create()
+#6 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#7 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2020-03-20 06:39:13 --> Object of class stdClass could not be converted to int
+#0 /var/www/html/group3/app/Controllers/Account.php(54): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Object of class...', '/var/www/html/g...', 54, Array)
+#1 /var/www/html/group3/system/CodeIgniter.php(910): App\Controllers\Account->withdraw()
+#2 /var/www/html/group3/system/CodeIgniter.php(398): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Account))
+#3 /var/www/html/group3/system/CodeIgniter.php(306): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 /var/www/html/group3/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#5 {main}

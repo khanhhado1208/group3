@@ -1,4 +1,5 @@
 <?php namespace App\Controllers;
+use App\Controllers\Account;
 
     class Pages extends BaseController {
 
@@ -28,13 +29,21 @@
         {
             throw new \CodeIgniter\Exceptions\PageNotFoundException($page);
         }
-
-        $data = ['title' => ucfirst($page), 'nav' => $this->generateNavItems()];
-        
+        $accountController = new Account;
+        $message = $accountController->getErrorState('message');
+        $state = $accountController->getErrorState('state'); 
+        $data = ['title' => ucfirst($page), 'nav' => $this->generateNavItems(), 'message' => $message];
         echo view('templates/header', $data);
         echo view('templates/nav', $data);
+        if($state == 'success'){
+            echo view('templates/alertsuccess', $data);
+        }
+        elseif($state == 'error'){
+            echo view('templates/alertfail', $data);
+        }
         echo view('pages/'.$page, $data);
         echo view('templates/footer', $data);
+        //$accountController->setErrorState(null, null);
     }
     public function generateNavItems() {
         $session = \Config\Services::session();

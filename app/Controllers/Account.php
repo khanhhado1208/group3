@@ -8,29 +8,34 @@ class Account extends Controller
 {
     //ACCOUNT PANEL
     public function index() {
+        $pageHandler = new Pages;
         $session = \Config\Services::session();
         if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
-            return redirect()->to('/dashboard'); 
+            $pageHandler->get('dashboard');
         } else {
-            return redirect()->to('/'); 
+            $this->setErrorState('error', 'Not signed in');
+            $pageHandler->get('home');
           }
     }
 
     //CREATE USERS DATABASE
     public function setupdb(){
+        $pageHandler = new Pages;
         $model = new UsersModel();
         $success = $model->initialize_database();
         if ($success){
-            return redirect()->to('/dbcreated');
+            $this->setErrorState('success', 'Table was created');
+            $pageHandler->get('home');
         } else {
-            $this->error('Unable to create table!', 'createdb');
+            $this->setErrorState('error', 'Table not created');
+            $pageHandler->get('home');
         }
     }
 
     //CREATE USER
     public function create()
     {  
- 
+    $pageHandler = new Pages;
     helper(['form', 'url']);
         $val = $this->validate([
             'username' => 'required',
@@ -41,11 +46,13 @@ class Account extends Controller
  
         //CHECK IF USER EXIST
         if ($model->user_exists($this->request->getVar('username'))) {
-            $this->error('User already exists!', 'register');
+            $this->setErrorState('error', 'User already exists');
+            $pageHandler->get('register');
         } else {
             if (!$val)
             {
-                return redirect()->to('/register'); 
+                $this->setErrorState('error', 'Data not valid');
+                $pageHandler->get('register');
     
             }
             else
@@ -55,8 +62,8 @@ class Account extends Controller
                     'username' => $this->request->getVar('username'),
                     'password'  => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT)
                 ]);
-                $data['title'] = ucfirst('success');
-                return redirect()->to('/success'); 
+                $this->setErrorState('success', 'New user created, please login');
+                $pageHandler->get('login');
             }
         }
 
@@ -64,31 +71,45 @@ class Account extends Controller
 
     //AUTHENTICATE USER
     public function authenticate(){
+        $pageHandler = new Pages;
         $username = $this->request->getVar('username');
         $password = $this->request->getVar('password');
         $model = new UsersModel();
         $success = $model->check_credentials($username, $password);
         if ($success){
-            return redirect()->to('/loginsuccess'); 
+            $this->setErrorState('success', 'Authentication successful');
+            $pageHandler->get('dashboard');
         } else {
-            $this->error('Login Failed!', 'login');
+            $this->setErrorState('error', 'Could not authenticate');
+            $pageHandler->get('login');
         }
     }
 
     //LOGOUT USER
     public function logout(){
+        $pageHandler = new Pages;
         $session = \Config\Services::session();
         unset($_SESSION['logged_in']);
         unset($_SESSION['username']);
-        return redirect()->to('/'); 
+        $this->setErrorState('success', 'Logged out');
+        $pageHandler->get('home');
     }
 
-    //ACCOUNT CONTROLLER ERROR HANDLER
-    public function error($message, $redirect){
-        $base = base_url();
-        echo '<script type="text/javascript">
-            alert("ERROR: '.$message.'");
-            window.location.href = "'.$base.'/'.$redirect.'";
-            </script>';
+    public $alertMessage;
+    public $alertState;
+    //ACCOUNT CONTROLLER ERROR STATE HANDLING
+    public function setErrorState($state, $message){
+        global $alertMessage, $alertState;
+        $alertState = $state;
+        $alertMessage = $message;
+    }
+
+    public function getErrorState($property){
+        global $alertMessage, $alertState;
+        if ($property == 'state') {
+            return $alertState;
+        } elseif ($property == 'message') {
+            return $alertMessage;
+        }
     }
 }

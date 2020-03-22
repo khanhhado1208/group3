@@ -58,33 +58,13 @@ use App\Controllers\Account;
     public function generateNavBar() {
         $accountController = new Account;
         if($accountController->isLoggedIn()) {
-            $navItems = '<li class="nav-item active">
-                <a class="nav-link" href="/">Dashboard</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="/exchange">Quick trade</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="/topup">Top up</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="/withdraw">Withdraw</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="/profile">My account</a>
-            </li>';
+            $balance = $accountController->getBalance(null).' Stonk$';
+            $navItems = ['dashboard' => 'Dashboard', 'exchange' => 'Quick trade', 'topup' => 'Top up', 'withdraw' => 'Withdraw', 'profile' => 'My account'];
+            $data = ['navItems' => $navItems, 'balance' => $balance];
         } else {
-            $navItems = '<li class="nav-item active">
-            <a class="nav-link" href="/">Home</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="/register">Register</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="/login">Login</a>
-            </li>';
+            $navItems = ['home' => 'Home', 'login' => 'Login', 'register' => 'Register'];
+            $data = ['navItems' => $navItems];
         }
-        $data = ['nav' => $navItems];
         echo view('templates/nav', $data);
     }
 }

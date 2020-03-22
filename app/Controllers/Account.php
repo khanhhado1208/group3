@@ -6,6 +6,10 @@ use App\Controllers\Pages;
  
 class Account extends Controller
 {
+    public function getDynamicData($page = '') {
+        return [];
+    } 
+
     //ACCOUNT PANEL
     public function index() {
         $pageHandler = new Pages;
@@ -13,7 +17,7 @@ class Account extends Controller
         if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
             $pageHandler->get('dashboard');
         } else {
-            $this->setErrorState('error', 'Not signed in');
+            $this->setErrorState('danger', 'Not signed in');
             $pageHandler->get('home');
           }
     }
@@ -32,11 +36,11 @@ class Account extends Controller
                 $this->setErrorState('success', 'Account balance updated');
                 $pageHandler->get('home');
             } else {
-                $this->setErrorState('error', 'Unable to deposit funds');
+                $this->setErrorState('danger', 'Unable to deposit funds');
                 $pageHandler->get('home');
             }
         } else {
-            $this->setErrorState('error', 'Not signed in');
+            $this->setErrorState('danger', 'Not signed in');
             $pageHandler->get('home');
         }
     }
@@ -52,7 +56,7 @@ class Account extends Controller
             $amount = $this->request->getVar('amount');
             $current_funds = $model->check_balance($username);
             if ($current_funds < $amount) {
-                $this->setErrorState('error', 'Insufficient funds');
+                $this->setErrorState('danger', 'Insufficient funds');
                 $pageHandler->get('home');
             } else {
                 $success = $model->money_transaction($username, -$amount, "Withdrawal");
@@ -60,12 +64,12 @@ class Account extends Controller
                     $this->setErrorState('success', 'Account balance updated');
                     $pageHandler->get('home');
                 } else {
-                    $this->setErrorState('error', 'Unable to deposit funds');
+                    $this->setErrorState('danger', 'Unable to deposit funds');
                     $pageHandler->get('home');
                 }
             }
         } else {
-            $this->setErrorState('error', 'Not signed in');
+            $this->setErrorState('danger', 'Not signed in');
             $pageHandler->get('home');
         }
 
@@ -81,7 +85,7 @@ class Account extends Controller
             $this->setErrorState('success', 'Tables created');
             $pageHandler->get('home');
         } else {
-            $this->setErrorState('error', 'Tables not created');
+            $this->setErrorState('danger', 'Tables not created');
             $pageHandler->get('home');
         }
     }
@@ -95,7 +99,7 @@ class Account extends Controller
             $this->setErrorState('success', 'Tables removed');
             $pageHandler->get('home');
         } else {
-            $this->setErrorState('error', 'Error while removing tables');
+            $this->setErrorState('danger', 'Error while removing tables');
             $pageHandler->get('home');
         }
     }
@@ -114,12 +118,12 @@ class Account extends Controller
  
         //CHECK IF USER EXIST
         if ($model->user_exists($this->request->getVar('username'))) {
-            $this->setErrorState('error', 'User already exists');
+            $this->setErrorState('danger', 'User already exists');
             $pageHandler->get('register');
         } else {
             if (!$val)
             {
-                $this->setErrorState('error', 'Data not valid');
+                $this->setErrorState('danger', 'Data not valid');
                 $pageHandler->get('register');
     
             }
@@ -148,7 +152,7 @@ class Account extends Controller
             $this->setErrorState('success', 'Authentication successful');
             $pageHandler->get('dashboard');
         } else {
-            $this->setErrorState('error', 'Could not authenticate');
+            $this->setErrorState('danger', 'Could not authenticate');
             $pageHandler->get('login');
         }
     }

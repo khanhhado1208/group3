@@ -5,7 +5,8 @@ use App\Controllers\Account;
 
     public function index()
     {
-        if($this->isLoggedIn()) {
+        $accountController = new Account;
+        if($accountController->isLoggedIn()) {
             return $this->get('dashboard');
         } else {
             return $this->get('home');
@@ -28,9 +29,9 @@ use App\Controllers\Account;
             throw new \CodeIgniter\Exceptions\PageNotFoundException($page);
         }
         //check if user logged in and print page content, if not return home
-        if($this->isLoggedIn()) {
+        $accountController = new Account;
+        if($accountController->isLoggedIn()) {
             //print content from respective view
-            $accountController = new Account;
             $data = $accountController->getDynamicData($page);
             echo view('pages/'.$page, $data);
         } else {
@@ -42,15 +43,6 @@ use App\Controllers\Account;
         }
         //print footer
         echo view('templates/footer');
-    }
-    public function isLoggedIn() {
-        $session = \Config\Services::session();
-        if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
-            return true;
-        }
-        else {
-            return false;
-        }
     }
 
     public function generateAlerts() {
@@ -64,8 +56,8 @@ use App\Controllers\Account;
     }
 
     public function generateNavBar() {
-        $session = \Config\Services::session();
-        if($this->isLoggedIn()) {
+        $accountController = new Account;
+        if($accountController->isLoggedIn()) {
             $navItems = '<li class="nav-item active">
                 <a class="nav-link" href="/">Dashboard</a>
             </li>

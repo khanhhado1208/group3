@@ -12,65 +12,70 @@ class Account extends Controller
 
     //ACCOUNT PANEL
     public function index() {
-        $pageHandler = new Pages;
-        $session = \Config\Services::session();
-        if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
-            $pageHandler->get('dashboard');
+        $pageController = new Pages;
+        if($this->isLoggedIn()) {
+            $pageController->get('dashboard');
         } else {
             $this->setErrorState('danger', 'Not signed in');
-            $pageHandler->get('home');
+            $pageController->get('home');
           }
     }
-
+    public function isLoggedIn() {
+        $session = \Config\Services::session();
+        if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
     //TOP UP
     public function topup() {
-        $pageHandler = new Pages;
+        $pageController = new Pages;
         $model = new UsersModel();
-        $session = \Config\Services::session();
 
-        if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
+        if($this->isLoggedIn()) {
             $username = $_SESSION['username'];
             $amount = $this->request->getVar('amount');
             $success = $model->money_transaction($username, $amount, "Deposit");
             if ($success) {
                 $this->setErrorState('success', 'Account balance updated');
-                $pageHandler->get('home');
+                $pageController->get('home');
             } else {
                 $this->setErrorState('danger', 'Unable to deposit funds');
-                $pageHandler->get('home');
+                $pageController->get('home');
             }
         } else {
             $this->setErrorState('danger', 'Not signed in');
-            $pageHandler->get('home');
+            $pageController->get('home');
         }
     }
 
     //WITHDRAW
     public function withdraw() {
-        $pageHandler = new Pages;
+        $pageController = new Pages;
         $model = new UsersModel();
-        $session = \Config\Services::session();
 
-        if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
+        if($this->isLoggedIn()) {
             $username = $_SESSION['username'];
             $amount = $this->request->getVar('amount');
             $current_funds = $model->check_balance($username);
             if ($current_funds < $amount) {
                 $this->setErrorState('danger', 'Insufficient funds');
-                $pageHandler->get('home');
+                $pageController->get('home');
             } else {
                 $success = $model->money_transaction($username, -$amount, "Withdrawal");
                 if ($success) {
                     $this->setErrorState('success', 'Account balance updated');
-                    $pageHandler->get('home');
+                    $pageController->get('home');
                 } else {
                     $this->setErrorState('danger', 'Unable to deposit funds');
-                    $pageHandler->get('home');
+                    $pageController->get('home');
                 }
             }
         } else {
             $this->setErrorState('danger', 'Not signed in');
-            $pageHandler->get('home');
+            $pageController->get('home');
         }
 
     }
@@ -78,36 +83,36 @@ class Account extends Controller
 
     //CREATE DATABASE TABLES
     public function setupdb(){
-        $pageHandler = new Pages;
+        $pageController = new Pages;
         $model = new UsersModel();
         $success = $model->initialize_database();
         if ($success){
             $this->setErrorState('success', 'Tables created');
-            $pageHandler->get('home');
+            $pageController->get('home');
         } else {
             $this->setErrorState('danger', 'Tables not created');
-            $pageHandler->get('home');
+            $pageController->get('home');
         }
     }
 
     //REMOVE DATABASE TABLES
     public function dropdb(){
-        $pageHandler = new Pages;
+        $pageController = new Pages;
         $model = new UsersModel();
         $success = $model->drop_db_tables();
         if ($success){
             $this->setErrorState('success', 'Tables removed');
-            $pageHandler->get('home');
+            $pageController->get('home');
         } else {
             $this->setErrorState('danger', 'Error while removing tables');
-            $pageHandler->get('home');
+            $pageController->get('home');
         }
     }
 
     //CREATE USER
     public function create()
     {  
-    $pageHandler = new Pages;
+    $pageController = new Pages;
     helper(['form', 'url']);
         $val = $this->validate([
             'username' => 'required',
@@ -119,12 +124,12 @@ class Account extends Controller
         //CHECK IF USER EXIST
         if ($model->user_exists($this->request->getVar('username'))) {
             $this->setErrorState('danger', 'User already exists');
-            $pageHandler->get('register');
+            $pageController->get('register');
         } else {
             if (!$val)
             {
                 $this->setErrorState('danger', 'Data not valid');
-                $pageHandler->get('register');
+                $pageController->get('register');
     
             }
             else
@@ -135,7 +140,7 @@ class Account extends Controller
                     'password'  => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT)
                 ]);
                 $this->setErrorState('success', 'New user created, please login');
-                $pageHandler->get('login');
+                $pageController->get('login');
             }
         }
 
@@ -143,28 +148,28 @@ class Account extends Controller
 
     //AUTHENTICATE USER
     public function authenticate(){
-        $pageHandler = new Pages;
+        $pageController = new Pages;
         $username = $this->request->getVar('username');
         $password = $this->request->getVar('password');
         $model = new UsersModel();
         $success = $model->check_credentials($username, $password);
         if ($success){
             $this->setErrorState('success', 'Authentication successful');
-            $pageHandler->get('dashboard');
+            $pageController->get('dashboard');
         } else {
             $this->setErrorState('danger', 'Could not authenticate');
-            $pageHandler->get('login');
+            $pageController->get('login');
         }
     }
 
     //LOGOUT USER
     public function logout(){
-        $pageHandler = new Pages;
+        $pageController = new Pages;
         $session = \Config\Services::session();
         unset($_SESSION['logged_in']);
         unset($_SESSION['username']);
         $this->setErrorState('success', 'Logged out');
-        $pageHandler->get('home');
+        $pageController->get('home');
     }
 
     public $alertMessage;

@@ -7,7 +7,18 @@ use App\Controllers\Pages;
 class Account extends Controller
 {
     public function getDynamicData($page = '') {
-        return [];
+        $model = new UsersModel();
+        $session = \Config\Services::session();
+        $data = [];
+
+        if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
+            $username = $_SESSION['username'];
+            $history = $model->check_transaction_history($username);
+
+            $data['history'] = $history;
+        }
+
+        return $data;
     } 
 
     //ACCOUNT PANEL
@@ -80,6 +91,18 @@ class Account extends Controller
 
     }
 
+    //TRANSACTION HISTORY
+    public function history() {
+        $pageController = new Pages;
+        $model = new UsersModel();
+
+        if($this->isLoggedIn()) {
+            $pageController->get('history');
+        } else {
+            $this->setErrorState('danger', 'Not signed in');
+            $pageController->get('home');
+        }
+    }
 
     //CREATE DATABASE TABLES
     public function setupdb(){

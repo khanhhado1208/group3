@@ -63,7 +63,7 @@ use App\Controllers\Account;
             $data = ['navItems' => $navItems, 'balance' => $balance];
         } else {
             $navItems = ['home' => 'Home', 'login' => 'Login', 'register' => 'Register'];
-            $data = ['navItems' => $navItems];
+            $data = ['navItems' => $navItems, 'balance' => '0'];
         }
         echo view('templates/nav', $data);
     }

@@ -6,12 +6,13 @@ use App\Controllers\Pages;
  
 class Account extends Controller
 {
+    //GET DYNAMIC DATA FOR VIEWS
     public function getDynamicData($page = '') {
         $model = new UsersModel();
         $session = \Config\Services::session();
         $data = [];
 
-        if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
+        if($this->isLoggedIn()) {
             $username = $_SESSION['username'];
             $history = $model->check_transaction_history($username);
 
@@ -31,6 +32,8 @@ class Account extends Controller
             $pageController->get('home');
           }
     }
+
+    //CHECK IF USER IS LOGGED IN
     public function isLoggedIn() {
         $session = \Config\Services::session();
         if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
@@ -40,6 +43,7 @@ class Account extends Controller
             return false;
         }
     }
+    
     //TOP UP
     public function topup() {
         $pageController = new Pages;

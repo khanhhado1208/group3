@@ -6,7 +6,7 @@ use App\Controllers\Pages;
  
 class Account extends Controller
 {
-    public function getDynamicData($view = '') {
+    public function getDynamicData($page = '') {
         return [];
     } 
 

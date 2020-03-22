@@ -14,14 +14,29 @@ class Account extends Controller
 
         if($this->isLoggedIn()) {
             $username = $_SESSION['username'];
+            $data['username'] = $username;
             $history = $model->check_transaction_history($username);
-
             $data['history'] = $history;
+            $balance = $this->getBalance($username);
+            $data['balance'] = $balance;
         }
 
         return $data;
     } 
 
+    public function getBalance($username) {
+        $model = new UsersModel();
+        //If username null, get balance for current session user
+        if ($username == null){
+            $session = \Config\Services::session();
+            $username = $_SESSION['username'];
+        }
+        return $model->check_balance($username);
+    }
+    public function getUsername() {
+        $session = \Config\Services::session();
+        return $_SESSION['username'];
+    }
     //ACCOUNT PANEL
     public function index() {
         $pageController = new Pages;

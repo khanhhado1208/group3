@@ -41,6 +41,22 @@ class UsersModel extends Model
         return $balance;
     }
 
+    //CHECK USER TRANSACTION HISTORY
+    function check_transaction_history($username) {
+        $db = \Config\Database::connect();
+
+        try {
+            $query = $db->query('SELECT (user_id) FROM users WHERE username="'.$username.'"');
+            $id = $query->getRow()->user_id;
+
+            $query = $db->query('SELECT * FROM transactions WHERE user_id = '.$id.'');
+            $history = $query->getResult();
+        } catch (\Throwable $th) {
+            return null;
+        }
+        return $history;
+    }
+
     //CHECK IF USER DATABASE ENTRY EXISTS
     function user_exists($username) {
         $db = \Config\Database::connect();

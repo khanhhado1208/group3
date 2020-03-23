@@ -20,7 +20,7 @@
             </div>
             <div class="col card">
             <?php
-                if (count($history) < 1){
+                if (count($history) == 0){
                     echo 'You don\'t seem to have any recent activity.<br>
                         <a href="/exchange">Start trading today!</a>';
                 } else {

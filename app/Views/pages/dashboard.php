@@ -19,7 +19,28 @@
                 </div>
             </div>
             <div class="col card">
-            Recent activity
+            <?php
+                if (count($history) < 1){
+                    echo 'You don\'t seem to have any recent activity.<br>
+                        <a href="/exchange">Start trading today!</a>';
+                } else {
+                    echo "<table class=\"table\">";
+                    echo "<thead><th colspan=\"3\">Recent Activity<th></thead>";
+                    $max_displayed_rows = 3;
+                    foreach (array_reverse($history) as $row) {
+                        echo "</td><td>";
+                        echo $row->tx_value;
+                        echo "</td><td>";
+                        echo $row->tx_type;
+                        echo "</td><td>";
+                        echo $row->tx_date;
+                        echo "</td><tr>";
+                        $max_displayed_rows -= 1;
+                        if ($max_displayed_rows == 0) break;
+                    }
+                    echo "</table>";
+                }
+            ?>
             </div>
             <div class="col card">
             Activity from the past week

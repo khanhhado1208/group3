@@ -4,12 +4,11 @@ use CodeIgniter\Controller;
 use App\Models\UsersModel;
 use App\Controllers\Pages;
  
-class Account extends Controller
+class Account extends BaseController
 {
     //GET DYNAMIC DATA FOR VIEWS
     public function getDynamicData($page = '') {
         $model = new UsersModel();
-        $session = \Config\Services::session();
         $data = [];
 
         if($this->isLoggedIn()) {
@@ -24,19 +23,19 @@ class Account extends Controller
         return $data;
     } 
 
+    //GET USER ACCOUNT BALANCE
     public function getBalance($username) {
         $model = new UsersModel();
         //If username null, get balance for current session user
         if ($username == null){
-            $session = \Config\Services::session();
             $username = $_SESSION['username'];
         }
         return $model->check_balance($username);
     }
     public function getUsername() {
-        $session = \Config\Services::session();
         return $_SESSION['username'];
     }
+
     //ACCOUNT PANEL
     public function index() {
         $pageController = new Pages;
@@ -50,7 +49,6 @@ class Account extends Controller
 
     //CHECK IF USER IS LOGGED IN
     public function isLoggedIn() {
-        $session = \Config\Services::session();
         if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
             return true;
         }
@@ -207,16 +205,16 @@ class Account extends Controller
     //LOGOUT USER
     public function logout(){
         $pageController = new Pages;
-        $session = \Config\Services::session();
         unset($_SESSION['logged_in']);
         unset($_SESSION['username']);
         $this->setErrorState('success', 'Logged out');
         $pageController->get('home');
     }
 
+    //ACCOUNT CONTROLLER ERROR STATE HANDLING FUNCTIONS AND VARIABLES
     public $alertMessage;
     public $alertState;
-    //ACCOUNT CONTROLLER ERROR STATE HANDLING
+
     public function setErrorState($state, $message){
         global $alertMessage, $alertState;
         $alertState = $state;

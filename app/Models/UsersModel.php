@@ -49,7 +49,7 @@ class UsersModel extends Model
             $query = $db->query('SELECT (user_id) FROM users WHERE username="'.$username.'"');
             $id = $query->getRow()->user_id;
 
-            $query = $db->query('SELECT * FROM transactions WHERE user_id = '.$id.'');
+            $query = $db->query('SELECT * FROM transactions WHERE user_id = '.$id.' ORDER BY tx_date ASC');
             $history = $query->getResult();
         } catch (\Throwable $th) {
             return null;

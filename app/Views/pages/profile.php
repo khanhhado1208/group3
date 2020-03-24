@@ -7,6 +7,7 @@
       <form action="<?php echo base_url('/account/history') ?>" method="post" accept-charset="utf-8">
           <div class="form-group">
            <button type="submit" id="send_form" class="btn btn-success">Transaction History</button>
+           <a href="/wallet"><button class="btn btn-success">Wallet</button></a>
           </div>
         </form>
            

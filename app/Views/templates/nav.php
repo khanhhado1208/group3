@@ -12,9 +12,11 @@
         echo '<a class="nav-link" href="/'.$navLink.'">'.$navItem.'</a>';
         echo '</li>';
       }
-        echo '<li class="nav-item disabled">';
-        echo '<a class="nav-link">Balance: '.$balance.'</a>';
+      if($balance > 0){
+        echo '<li class="nav-item">';
+        echo '<a class="nav-link" href="/wallet">Balance: '.$balance.'</a>';
         echo '</li>';
+      }
       ?>
     </ul>
   </div>

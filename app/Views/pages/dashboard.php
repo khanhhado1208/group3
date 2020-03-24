@@ -7,21 +7,13 @@
             <h3>Welcome, <?= $username ?>! </h3>
             <h2>Balance: <?= $balance ?> STONK$ </h2>
                 <div class="row">
-                    <div class="col">
-                        <a href='/topup'><button class="btn btn-light">Deposit</button></a>
-                    </div>
-                    <div class="col">
-                        <a href='/withdraw'><button class="btn btn-light">Withdraw</button></a>
-                    </div>
-                    <div class="col">
-                        <a href='/history'><button class="btn btn-light">History</button></a>
-                    </div>
+                        <a href='/wallet'><button class="btn btn-light">Manage my wallet</button></a>
                 </div>
             </div>
             <div class="col card">
             <?php
                 if (count($history) == 0){
-                    echo 'You don\'t seem to have any recent activity.<br>
+                    echo '<p class="h4">No recent activity.</p><br>
                         <a href="/exchange">Start trading today!</a>';
                 } else {
                     echo "<table class=\"table\">";
@@ -43,7 +35,7 @@
             ?>
             </div>
             <div class="col card">
-            Activity from the past week
+            <p class="h4">Activity from the past week</p>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
 
             <canvas id="activityChart" width="400" height="400"></canvas>
@@ -86,10 +78,11 @@
         </div>
         <div class="row">
             <div class="col card">
-            Announcements
+            <p class="h4">Announcements</p>
+
             </div>
             <div class="col card">
-            Live site activity
+            <p class="h4">Live site activity</p>
             </div>
         </div>
     </div>

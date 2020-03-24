@@ -18,7 +18,7 @@ class UsersModel extends Model
             $query = $db->query('SELECT (user_id) FROM users WHERE username="'.$username.'"');
             $id = $query->getRow()->user_id;
     
-            $query = $db->query('INSERT INTO transactions (user_id, tx_type, tx_value, stonk_id) VALUES ('.$id.',"'.$message.'",'.$amount.', "-1")');
+            $query = $db->query('INSERT INTO transactions (user_id, tx_type, tx_value, stonk_id) VALUES ('.$id.',"'.$message.'",'.$amount.', "1")');
         } catch (\Throwable $th) {
             return false;
         }
@@ -142,18 +142,30 @@ class UsersModel extends Model
                 FOREIGN KEY (`stonk_id`) REFERENCES stonks(stonk_id)
             )');
 
+            //Add default issuer and dummy stonk for money transactions
+            $query = $db->query('INSERT INTO issuers
+                (issuer_id, issuer_name, issuer_desc, sponsored) VALUES
+                (1, "Default Issuer", "Default Issuer", false)'
+            );
+
+            $query = $db->query('INSERT INTO stonks
+                (stonk_name, issuer_id, stonk_desc, stonk_tradable) VALUES
+                ("Default Stock", 1, "Default Stock", false)'
+            );
+
             //Add default issuer and a few stonks
             $default_issuer_names = ['ACME Company LTD', 'Worldwide Trading Co', 'United Refineries'];
             $default_issuer_desc = 'A vibrant and well-respected company in their field.';
 
             $query = $db->query('INSERT INTO issuers
                 (issuer_id, issuer_name, issuer_desc, sponsored) VALUES
-                (1, "'.$default_issuer_names[array_rand($default_issuer_names)].'", "'.$default_issuer_desc.'", false)'
+                (2, "'.$default_issuer_names[array_rand($default_issuer_names)].'", "'.$default_issuer_desc.'", false)'
             );
 
             for ($i = rand(1, 5); $i > 0; $i--) {
-                $query = $db->query('INSERT INTO stonks (stonk_name, issuer_id, stonk_desc, stonk_tradable) VALUES
-                    ("Stock", 1, "Stock", true)'
+                $query = $db->query('INSERT INTO stonks 
+                    (stonk_name, issuer_id, stonk_desc, stonk_tradable) VALUES
+                    ("Stock", 2, "Stock", true)'
                 );
             }
         } catch (\Throwable $th) {

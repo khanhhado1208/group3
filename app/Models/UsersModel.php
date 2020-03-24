@@ -49,7 +49,10 @@ class UsersModel extends Model
             $query = $db->query('SELECT (user_id) FROM users WHERE username="'.$username.'"');
             $id = $query->getRow()->user_id;
 
-            $query = $db->query('SELECT * FROM transactions WHERE user_id = '.$id.' ORDER BY tx_date ASC');
+            $query = $db->query('SELECT * FROM transactions 
+                INNER JOIN stonks ON transactions.stonk_id = stonks.stonk_id
+                WHERE user_id = '.$id.' ORDER BY tx_date ASC'
+            );
             $history = $query->getResult();
         } catch (\Throwable $th) {
             return null;
@@ -150,7 +153,7 @@ class UsersModel extends Model
 
             $query = $db->query('INSERT INTO stonks
                 (stonk_name, issuer_id, stonk_desc, stonk_tradable) VALUES
-                ("Default Stock", 1, "Default Stock", false)'
+                ("Currency Transaction", 1, "Currency Transaction", false)'
             );
 
             //Add default issuer and a few stonks

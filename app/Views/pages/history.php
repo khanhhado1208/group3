@@ -3,6 +3,7 @@
     <tr>
       <th scope="col">Value</th>
       <th scope="col">Type</th>
+      <th scope="col">Stonk Name</th>
       <th scope="col">Date</th>
     </tr>
   </thead>
@@ -15,6 +16,8 @@ foreach (array_reverse($history) as $row)
         echo $row->tx_value;
         echo "</td><td>";
         echo $row->tx_type;
+        echo "</td><td>";
+        echo $row->stonk_name;
         echo "</td><td>";
         echo $row->tx_date;
         echo "</td><tr>";

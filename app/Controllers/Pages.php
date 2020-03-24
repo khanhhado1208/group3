@@ -59,7 +59,7 @@ use App\Controllers\Account;
         $accountController = new Account;
         if($accountController->isLoggedIn()) {
             $balance = $accountController->getBalance(null).' Stonk$';
-            $navItems = ['dashboard' => 'Dashboard', 'exchange' => 'Quick trade', 'topup' => 'Top up', 'withdraw' => 'Withdraw', 'profile' => 'My account'];
+            $navItems = ['dashboard' => 'Dashboard', 'exchange' => 'Exchange', 'quicktrade' => 'Quick trade', 'topup' => 'Top up', 'withdraw' => 'Withdraw', 'profile' => 'My account'];
             $data = ['navItems' => $navItems, 'balance' => $balance];
         } else {
             $navItems = ['home' => 'Home', 'login' => 'Login', 'register' => 'Register'];

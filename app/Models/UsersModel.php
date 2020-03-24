@@ -18,7 +18,7 @@ class UsersModel extends Model
             $query = $db->query('SELECT (user_id) FROM users WHERE username="'.$username.'"');
             $id = $query->getRow()->user_id;
     
-            $query = $db->query('INSERT INTO transactions (user_id, tx_type, tx_value, stonk_id) VALUES ('.$id.',"'.$message.'",'.$amount.', "-1")');
+            $query = $db->query('INSERT INTO transactions (user_id, tx_type, tx_value, stonk_id) VALUES ('.$id.',"'.$message.'",'.$amount.', "1")');
         } catch (\Throwable $th) {
             return false;
         }
@@ -49,7 +49,10 @@ class UsersModel extends Model
             $query = $db->query('SELECT (user_id) FROM users WHERE username="'.$username.'"');
             $id = $query->getRow()->user_id;
 
-            $query = $db->query('SELECT * FROM transactions WHERE user_id = '.$id.' ORDER BY tx_date ASC');
+            $query = $db->query('SELECT * FROM transactions 
+                INNER JOIN stonks ON transactions.stonk_id = stonks.stonk_id
+                WHERE user_id = '.$id.' ORDER BY tx_date ASC'
+            );
             $history = $query->getResult();
         } catch (\Throwable $th) {
             return null;
@@ -96,11 +99,13 @@ class UsersModel extends Model
         }
     }
 
-    //CREATE TABLES IN DATABASE
+    //CREATE TABLES AND ADD DEFAULT STOCKS IN DATABASE
     function initialize_database() {
         $db = \Config\Database::connect();
 
         try {
+
+            //Create tables
             $query = $db->query('CREATE TABLE `users` (
                 `user_id` INT NOT NULL AUTO_INCREMENT UNIQUE,
                 `username` varchar(255) NOT NULL UNIQUE,
@@ -108,16 +113,6 @@ class UsersModel extends Model
                 `balance` INT NOT NULL,
                 `create_date` TIMESTAMP NOT NULL,
                 PRIMARY KEY (`user_id`)
-            )');
-
-            $query = $db->query('CREATE TABLE `transactions` (
-                `tx_id` INT NOT NULL AUTO_INCREMENT UNIQUE,
-                `user_id` INT NOT NULL,
-                `tx_value` FLOAT NOT NULL,
-                `tx_type` varchar(255),
-                `stonk_id` BIGINT,
-                `tx_date` TIMESTAMP NOT NULL,
-                PRIMARY KEY (`tx_id`)
             )');
 
             $query = $db->query('CREATE TABLE `issuers` (
@@ -134,8 +129,48 @@ class UsersModel extends Model
                 `issuer_id` INT NOT NULL,
                 `stonk_desc` TEXT NOT NULL,
                 `stonk_tradable` BOOLEAN NOT NULL,
-                PRIMARY KEY (`stonk_id`)
+                PRIMARY KEY (`stonk_id`),
+                FOREIGN KEY (`issuer_id`) REFERENCES issuers(issuer_id)
             )');
+
+            $query = $db->query('CREATE TABLE `transactions` (
+                `tx_id` INT NOT NULL AUTO_INCREMENT UNIQUE,
+                `user_id` INT NOT NULL ,
+                `tx_value` INT NOT NULL,
+                `tx_type` varchar(255),
+                `stonk_id` INT NOT NULL,
+                `tx_date` TIMESTAMP NOT NULL,
+                PRIMARY KEY (`tx_id`),
+                FOREIGN KEY (`user_id`) REFERENCES users(user_id),
+                FOREIGN KEY (`stonk_id`) REFERENCES stonks(stonk_id)
+            )');
+
+            //Add default issuer and dummy stonk for money transactions
+            $query = $db->query('INSERT INTO issuers
+                (issuer_id, issuer_name, issuer_desc, sponsored) VALUES
+                (1, "Default Issuer", "Default Issuer", false)'
+            );
+
+            $query = $db->query('INSERT INTO stonks
+                (stonk_name, issuer_id, stonk_desc, stonk_tradable) VALUES
+                ("Currency Transaction", 1, "Currency Transaction", false)'
+            );
+
+            //Add default issuer and a few stonks
+            $default_issuer_names = ['ACME Company LTD', 'Worldwide Trading Co', 'United Refineries'];
+            $default_issuer_desc = 'A vibrant and well-respected company in their field.';
+
+            $query = $db->query('INSERT INTO issuers
+                (issuer_id, issuer_name, issuer_desc, sponsored) VALUES
+                (2, "'.$default_issuer_names[array_rand($default_issuer_names)].'", "'.$default_issuer_desc.'", false)'
+            );
+
+            for ($i = rand(1, 5); $i > 0; $i--) {
+                $query = $db->query('INSERT INTO stonks 
+                    (stonk_name, issuer_id, stonk_desc, stonk_tradable) VALUES
+                    ("Stock", 2, "Stock", true)'
+                );
+            }
         } catch (\Throwable $th) {
             return false;
         }
@@ -145,10 +180,10 @@ class UsersModel extends Model
     function drop_db_tables() {
         $db = \Config\Database::connect();
         try {
-            $query = $db->query('DROP TABLE users');
             $query = $db->query('DROP TABLE transactions');
             $query = $db->query('DROP TABLE stonks;');
             $query = $db->query('DROP TABLE issuers');
+            $query = $db->query('DROP TABLE users');
         } catch(\Throwable $th) {
             return false;
         }

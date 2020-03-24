@@ -150,13 +150,12 @@ class Account extends BaseController
     }
 
     //CREATE USER
-    public function create()
-    {  
-    $pageController = new Pages;
-    helper(['form', 'url']);
+    public function create(){  
+        $pageController = new Pages;
+        helper(['form', 'url']);
         $val = $this->validate([
-            'username' => 'required',
-            'password' => 'required',
+            'username' => 'required|alpha_numeric',
+            'password' => 'required|regex_match[^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$]',
         ]);
  
         $model = new UsersModel();
@@ -189,17 +188,51 @@ class Account extends BaseController
     //AUTHENTICATE USER
     public function authenticate(){
         $pageController = new Pages;
-        $username = $this->request->getVar('username');
-        $password = $this->request->getVar('password');
-        $model = new UsersModel();
-        $success = $model->check_credentials($username, $password);
-        if ($success){
-            $this->setErrorState('success', 'Authentication successful');
-            $pageController->get('dashboard');
-        } else {
-            $this->setErrorState('danger', 'Could not authenticate');
-            $pageController->get('login');
+        helper(['form', 'url']);
+        $val = $this->validate([
+            'username' => 'required|alpha_numeric',
+            'password' => 'required|regex_match[^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$]',
+        ]);
+        if (!$val)
+            {
+                $this->setErrorState('danger', 'Data not valid');
+                $pageController->get('login');
+    
+            }
+            else
+            { 
+                $username = $this->request->getVar('username');
+                $password = $this->request->getVar('password');
+                $model = new UsersModel();
+                $success = $model->check_credentials($username, $password);
+                if ($success){
+                    $this->setErrorState('success', 'Authentication successful');
+                    $pageController->get('dashboard');
+                } else {
+                    $this->setErrorState('danger', 'Could not authenticate');
+                    $pageController->get('login');
+                }
+            }
+        
+    }
+
+    //test account for demo/testing purposes
+    public function demoAutoLogin(){
+        $pageController = new Pages;
+        $model = new UsersModel;
+        if ($model->user_exists('demouser')){
+            $this->setErrorState('success', 'Demouser logged in');
+        } else{
+            $model->save([
+                'username' => 'demouser',
+                'password'  => password_hash('demouser', PASSWORD_DEFAULT)
+            ]);
+            $this->setErrorState('success', 'Demouser registered and logged in');
         }
+
+        $_SESSION['logged_in'] = true;
+        $_SESSION['username'] = 'demouser';
+        $pageController->get('dashboard');
     }
 
     //LOGOUT USER

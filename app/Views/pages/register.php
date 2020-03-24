@@ -8,13 +8,13 @@
  
           <div class="form-group">
             <label for="formGroupExampleInput">Username</label>
-            <input type="text" name="username" class="form-control" id="formGroupExampleInput" placeholder="Please enter a new username">
+            <input type="text" name="username" class="form-control" id="formGroupExampleInput" placeholder="A new alphanumeric username">
              
           </div> 
  
           <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" name="password" class="form-control" id="password" placeholder="Please enter a new password">
+            <input type="password" name="password" class="form-control" id="password" placeholder="A strong 8-16 char password (min. 1 upper, lower, number, special)">
              
           </div>
  

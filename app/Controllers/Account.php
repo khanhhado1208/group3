@@ -150,12 +150,11 @@ class Account extends BaseController
     }
 
     //CREATE USER
-    public function create()
-    {  
-    $pageController = new Pages;
-    helper(['form', 'url']);
+    public function create(){  
+        $pageController = new Pages;
+        helper(['form', 'url']);
         $val = $this->validate([
-            'username' => 'required',
+            'username' => 'required|alpha_numeric',
             'password' => 'required',
         ]);
  
@@ -189,6 +188,12 @@ class Account extends BaseController
     //AUTHENTICATE USER
     public function authenticate(){
         $pageController = new Pages;
+        helper(['form', 'url']);
+        $val = $this->validate([
+            'username' => 'required|alpha_numeric',
+            'password' => 'required',
+        ]);
+
         $username = $this->request->getVar('username');
         $password = $this->request->getVar('password');
         $model = new UsersModel();

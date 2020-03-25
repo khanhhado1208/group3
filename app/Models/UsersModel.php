@@ -18,7 +18,7 @@ class UsersModel extends Model
             $query = $db->query('SELECT (user_id) FROM users WHERE username="'.$username.'"');
             $id = $query->getRow()->user_id;
     
-            $query = $db->query('INSERT INTO transactions (user_id, tx_type, tx_value, stonk_id) VALUES ('.$id.',"'.$message.'",'.$amount.', "1")');
+            $query = $db->query('INSERT INTO transactions (user_id, tx_type, tx_value, stonk_id, stonk_amount) VALUES ('.$id.',"'.$message.'",'.$amount.', "1", "0")');
         } catch (\Throwable $th) {
             return false;
         }
@@ -99,6 +99,34 @@ class UsersModel extends Model
         }
     }
 
+    //FETCH ALL STONK NAMES
+    function get_stonk_names() {
+        $db = \Config\Database::connect();
+
+        $query = $db->query('SELECT stonk_name FROM stonks WHERE stonk_id > 1');
+        $results = $query->getResult();
+
+        $stonk_names = [];
+
+        foreach($results as $row) {
+            array_push($stonk_names, $row->stonk_name);
+        }
+
+        return $stonk_names;
+    }
+
+    //FETCH STONK PROPERTIES
+    function get_stonk_properties($id) {
+        $db = \Config\Database::connect();
+
+        $query = $db->query('SELECT * FROM stonks
+            INNER JOIN issuers ON stonks.issuer_id = issuers.issuer_id
+            WHERE stonk_id ='.$id.''
+        );
+
+        return $query->getRow();
+    }
+
     //CREATE TABLES AND ADD DEFAULT STOCKS IN DATABASE
     function initialize_database() {
         $db = \Config\Database::connect();
@@ -110,7 +138,6 @@ class UsersModel extends Model
                 `user_id` INT NOT NULL AUTO_INCREMENT UNIQUE,
                 `username` varchar(255) NOT NULL UNIQUE,
                 `password` varchar(255) NOT NULL UNIQUE,
-                `balance` INT NOT NULL,
                 `create_date` TIMESTAMP NOT NULL,
                 PRIMARY KEY (`user_id`)
             )');
@@ -139,6 +166,7 @@ class UsersModel extends Model
                 `tx_value` INT NOT NULL,
                 `tx_type` varchar(255),
                 `stonk_id` INT NOT NULL,
+                `stonk_amount` INT NOT NULL,
                 `tx_date` TIMESTAMP NOT NULL,
                 PRIMARY KEY (`tx_id`),
                 FOREIGN KEY (`user_id`) REFERENCES users(user_id),

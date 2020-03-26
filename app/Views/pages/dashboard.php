@@ -41,9 +41,7 @@
             <canvas id="activityChart" width="400" height="400"></canvas>
             <script>
             var ctx = document.getElementById('activityChart');
-            var activityChart = new Chart(ctx, {
-                type: 'line',
-                data: {
+            var data = {
                     <?php
                         echo "labels: ['".(date("d") - 6)."', '".(date("d") - 5)."', '".(date("d") - 4)."', '".(date("d") - 3)."', '".(date("d") - 2)."', '".(date("d") - 1)."', '".date("d")."'],";
                     ?>
@@ -71,7 +69,24 @@
                         borderColor: 'rgba(0, 0, 0, 0.3)',
                         borderWidth: 2
                     }]
-                },
+            }
+            var option = {
+                scales: {
+                    yAxes: [
+                        {
+                            stacked: true,
+                            ticks: {
+                                suggestedMin: 0,
+                                stepSize: 1
+                            }
+                        }
+                    ]
+                }
+            }
+            var activityChart = new Chart(ctx, {
+                type: 'line',
+                data:data,
+                options:option
             });
             </script>
             </div>

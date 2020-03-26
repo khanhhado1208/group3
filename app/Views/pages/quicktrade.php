@@ -19,8 +19,8 @@
                 <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                     <?php
                     
-                    for ($i = 0; $i < count($stonkids); $i++) {
-                      echo '<button class="dropdown-item" onclick="selectStonk('.$stonkids[$i].',\''.$stonknames[$stonkids[$i]].'\')" type="button">'.$stonknames[$stonkids[$i]].'</button>';
+                    foreach ($stonkproperties as $stonk) {
+                      echo '<button class="dropdown-item" onclick="selectStonk('.$stonk->stonk_id.',\''.$stonk->stonk_name.'\')" type="button">'.$stonk->stonk_name.'</button>';
                     }
 
                     ?>

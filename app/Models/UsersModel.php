@@ -118,53 +118,19 @@ class UsersModel extends Model
         }
     }
 
-    //FETCH ALL STONK NAMES
-    public function get_stonk_names()
+    //FETCH ALL STONK PROPERTIES
+    public function get_stonk_properties()
     {
         try {
-            $query = $this->db->query('SELECT stonk_name, stonk_id FROM stonks WHERE stonk_id > 1');
-            $results = $query->getResult();
-
-            $stonk_names = [];
-
-            foreach ($results as $row) {
-                $stonk_names[$row->stonk_id] = $row->stonk_name;
-                //array_push($stonk_names, [$row->stonk_id => $row->stonk_name]);
-            }
+            $query = $this->db->query(
+                'SELECT * FROM stonks
+                INNER JOIN issuers ON stonks.issuer_id = issuers.issuer_id
+                WHERE stonk_id > 1'
+            );
         } catch (\Throwable $th) {
             return [];
         }
-        return $stonk_names;
-    }
-
-    //FETCH ALL STONK IDS
-    public function get_stonk_ids()
-    {
-        try {
-            $query = $this->db->query('SELECT stonk_id FROM stonks WHERE stonk_id > 1');
-            $results = $query->getResult();
-    
-            $stonk_ids = [];
-    
-            foreach ($results as $row) {
-                array_push($stonk_ids, $row->stonk_id);
-            }
-        } catch (\Throwable $th) {
-            return [];
-        }
-        return $stonk_ids;
-    }
-
-    //FETCH STONK PROPERTIES
-    public function get_stonk_properties($id)
-    {
-        $query = $this->db->query(
-            'SELECT * FROM stonks
-            INNER JOIN issuers ON stonks.issuer_id = issuers.issuer_id
-            WHERE stonk_id ='.$id.''
-        );
-
-        return $query->getRow();
+        return $query->getResult();
     }
 
     //FETCH ALL STONKS OWNED BY USER

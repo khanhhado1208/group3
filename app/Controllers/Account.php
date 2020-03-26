@@ -20,10 +20,8 @@ class Account extends BaseController
             $data['balance'] = $balance;
             $userstonks = $model->get_user_stonks($username);
             $data['userstonks'] = $userstonks;
-            $stonkids = $model->get_stonk_ids();
-            $data['stonkids'] = $stonkids;
-            $stonknames = $model->get_stonk_names();
-            $data['stonknames'] = $stonknames;
+            $stonkproperties = $model->get_stonk_properties();
+            $data['stonkproperties'] = $stonkproperties;
         }
 
         return $data;

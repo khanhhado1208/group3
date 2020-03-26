@@ -18,6 +18,12 @@ class Account extends BaseController
             $data['history'] = $history;
             $balance = $this->getBalance($username);
             $data['balance'] = $balance;
+            $userstonks = $model->get_user_stonks($username);
+            $data['userstonks'] = $userstonks;
+            $stonkids = $model->get_stonk_ids();
+            $data['stonkids'] = $stonkids;
+            $stonknames = $model->get_stonk_names();
+            $data['stonknames'] = $stonknames;
         }
 
         return $data;
@@ -106,6 +112,60 @@ class Account extends BaseController
             $pageController->get('home');
         }
 
+    }
+
+    //QUICK TRADE
+    public function quicktrade() {
+        $pageController = new Pages;
+        $model = new UsersModel();
+
+        if($this->isLoggedIn()) {
+            $username = $_SESSION['username'];
+            $stonkid = $this->request->getVar('stonkid');
+            $amount = $this->request->getVar('amount');
+            $value = $this->request->getVar('value');
+
+            if ($this->request->getVar('operation') == "buy") {
+                $current_funds = $model->check_balance($username);
+                if ($current_funds < $value) {
+                    $this->setErrorState('danger', 'Insufficient funds');
+                    $pageController->get('home');
+                } else {
+                    $success = $model->stonk_transaction($username, -$value, $stonkid, $amount, "Stonk Purchase");
+                    if ($success) {
+                        $this->setErrorState('success', 'Stonks Purchased');
+                        $pageController->get('home');
+                    } else {
+                        $this->setErrorState('danger', 'Unable to Purchase Stonks');
+                        $pageController->get('home');
+                    }
+                }
+            } else {
+                $user_stonks = $model->get_user_stonks($username);
+                $user_has_stonks = false;
+                foreach ($user_stonks as $stonk_row) {
+                    if ($stonk_row->stonk_id == $stonkid && $stonk_row->stonk_amount >= $amount) {
+                        $user_has_stonks = true;
+                    }
+                }
+                if ($user_has_stonks) {
+                    $success = $model->stonk_transaction($username, $value, $stonkid, -$amount, "Stonk Sold");
+                    if ($success) {
+                        $this->setErrorState('success', 'Stonks Sold');
+                        $pageController->get('home');
+                    } else {
+                        $this->setErrorState('danger', 'Unable to Sell Stonks');
+                        $pageController->get('home');
+                    }
+                } else {
+                    $this->setErrorState('danger', 'Insufficient Stonks');
+                    $pageController->get('home');
+                }
+            }
+        } else {
+            $this->setErrorState('danger', 'Not signed in');
+            $pageController->get('home');
+        }
     }
 
     //TRANSACTION HISTORY

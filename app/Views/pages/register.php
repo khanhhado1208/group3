@@ -19,7 +19,7 @@
           </div>
           <div class="form-group">
             <label for="confirmpassword">Confirm password</label>
-            <input type="confirmpassword" name="confirmpassword" class="form-control" id="confirmpassword" placeholder="Type your password again">
+            <input type="password" name="confirmpassword" class="form-control" id="confirmpassword" placeholder="Type your password again">
              
           </div>
  

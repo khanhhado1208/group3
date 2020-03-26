@@ -144,7 +144,7 @@ function validateAmount() {
   if (amountElement.value > maxAmount) {
     valueElement.value = maxAmount * stonkPrice;
     amountElement.value = maxAmount;
-  } else if (amountElement.value < 1) {
+  } else if (amountElement.value < 0) {
     valueElement.value = stonkPrice;
     amountElement.value = 1;
   }
@@ -154,7 +154,7 @@ function validateValue() {
   if (valueElement.value > maxAmount * stonkPrice) {
     valueElement.value = maxAmount * stonkPrice;
     amountElement.value = maxAmount;
-  } else if (valueElement.value < 1) {
+  } else if (valueElement.value < 0) {
     valueElement.value = stonkPrice;
     amountElement.value = 1;
   }

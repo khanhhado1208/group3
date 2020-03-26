@@ -14,14 +14,14 @@ foreach (array_reverse($history) as $row) {
     echo "</tr><td>";
     echo $row->tx_value;
     echo "</td><td>";
-    echo $row->tx_type;
     if ($row->stonk_id > 1) {
-      echo ' - '.$row->stonk_name.' - ';
       if ($row->stonk_amount < 0) {
-        echo (-$row->stonk_amount).' Sold';
+        echo 'Sold '.(-$row->stonk_amount).' '.$row->stonk_name;
       } else {
-        echo $row->stonk_amount.' Purchased';
+        echo 'Purchased '.($row->stonk_amount).' '.$row->stonk_name;
       }
+    } else {
+      echo $row->tx_type;
     }
     echo "</td><td>";
     echo $row->tx_date;

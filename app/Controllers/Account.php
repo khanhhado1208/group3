@@ -20,10 +20,8 @@ class Account extends BaseController
             $data['balance'] = $balance;
             $userstonks = $model->get_user_stonks($username);
             $data['userstonks'] = $userstonks;
-            $stonkids = $model->get_stonk_ids();
-            $data['stonkids'] = $stonkids;
-            $stonknames = $model->get_stonk_names();
-            $data['stonknames'] = $stonknames;
+            $stonkproperties = $model->get_stonk_properties();
+            $data['stonkproperties'] = $stonkproperties;
         }
 
         return $data;
@@ -240,7 +238,7 @@ class Account extends BaseController
                     'password'  => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT)
                 ]);
                 $this->setErrorState('success', 'New user created, please login');
-                $model->money_transaction($this->request->getVar('username'), 10, "Deposit");
+                $model->money_transaction($this->request->getVar('username'), 10, "Sign-Up Bonus");
                 $pageController->get('login');
             }
         }

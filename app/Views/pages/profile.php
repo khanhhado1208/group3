@@ -15,8 +15,10 @@
           </div>
         </form>
         <a href="/wallet"><button class="btn btn-success">Wallet</button></a>
-        
-           <a href="/unregister"><button class="btn btn-danger">Delete account</button></a>
+        <form action="<?php echo base_url('/account/deleteuser') ?>" method="post" accept-charset="utf-8">
+            <br><br><br>
+           <a><button class="btn btn-danger">Delete account</button></a>
+        </form>
       </div>
  
     </div>

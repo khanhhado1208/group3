@@ -322,4 +322,15 @@ class Account extends BaseController
             return $alertMessage;
         }
     }
-}
+    //DELETE USER
+            public function deleteuser(){
+                $username = $_SESSION['username']; 
+                $pageController = new Pages;
+                $model = new UsersModel();
+                $model->removeuser($username);
+                unset($_SESSION['logged_in']);
+                unset($_SESSION['username']);
+                $this->setErrorState('success', 'Your account has been succesfully deleted');
+                $pageController->get('home');
+                }
+    }

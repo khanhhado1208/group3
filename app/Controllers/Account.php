@@ -216,6 +216,7 @@ class Account extends BaseController
         $val = $this->validate([
             'username' => 'required|alpha_numeric',
             'password' => 'required|regex_match[^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$]',
+            'confirmpassword' => 'required|matches[password]',
         ]);
  
         $model = new UsersModel();

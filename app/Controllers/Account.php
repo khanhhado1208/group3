@@ -240,6 +240,7 @@ class Account extends BaseController
                     'password'  => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT)
                 ]);
                 $this->setErrorState('success', 'New user created, please login');
+                $model->money_transaction($this->request->getVar('username'), 10, "Deposit");
                 $pageController->get('login');
             }
         }

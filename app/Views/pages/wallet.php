@@ -1,3 +1,4 @@
+<div class="container">
 <div class="row">
 <div class="col card">
     <h4><?= $username ?>'s Wallet </h4>
@@ -8,6 +9,29 @@
 </div>
 <div class="col card">
     <h2>Owned stonks:</h2>
+    <table class="table">
+<thead>
+    <tr>
+      <th scope="col">Stonk</th>
+      <th scope="col">Amount</th>
+    </tr>
+</thead>
+<tbody>
+<?php
+foreach ($userstonks as $row) {
+    if ($row->stonk_amount > 0) {
+        echo "<tr><td>";
+        echo $row->stonk_name;
+        echo "</td><td>";
+        echo $row->stonk_amount;
+        echo "</td></tr>";
+    }
+}
+?>
+</tbody>
+</table>
         
 </div>
 </div>
+</div>
+

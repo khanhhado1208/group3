@@ -122,13 +122,14 @@ class UsersModel extends Model
     public function get_stonk_names()
     {
         try {
-            $query = $this->db->query('SELECT stonk_name FROM stonks WHERE stonk_id > 1');
+            $query = $this->db->query('SELECT stonk_name, stonk_id FROM stonks WHERE stonk_id > 1');
             $results = $query->getResult();
 
             $stonk_names = [];
 
             foreach ($results as $row) {
-                array_push($stonk_names, $row->stonk_name);
+                $stonk_names[$row->stonk_id] = $row->stonk_name;
+                //array_push($stonk_names, [$row->stonk_id => $row->stonk_name]);
             }
         } catch (\Throwable $th) {
             return [];

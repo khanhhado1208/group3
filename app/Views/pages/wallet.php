@@ -1,3 +1,4 @@
+<div class="container">
 <div class="row">
 <div class="col card">
     <h4><?= $username ?>'s Wallet </h4>
@@ -32,3 +33,5 @@ foreach ($userstonks as $row) {
         
 </div>
 </div>
+</div>
+

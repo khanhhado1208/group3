@@ -209,7 +209,7 @@ class UsersModel extends Model
             $query = $this->db->query(
                 'INSERT INTO stonks
                 (stonk_name, issuer_id, stonk_desc, stonk_tradable) VALUES
-                ("Currency Transaction", 1, "Currency Transaction", false)'
+                ("", 1, "", false)'
             );
 
             //Add default issuer and a few stonks

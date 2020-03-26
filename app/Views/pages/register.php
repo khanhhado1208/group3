@@ -17,6 +17,11 @@
             <input type="password" name="password" class="form-control" id="password" placeholder="A strong 8-16 char password (min. 1 upper, lower, number, special)">
              
           </div>
+          <div class="form-group">
+            <label for="confirmpassword">Confirm password</label>
+            <input type="password" name="confirmpassword" class="form-control" id="confirmpassword" placeholder="Type your password again">
+             
+          </div>
  
           <div class="form-group">
            <button type="submit" id="send_form" class="btn btn-success">Sign up</button>

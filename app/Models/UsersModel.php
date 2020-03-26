@@ -163,7 +163,7 @@ class UsersModel extends Model
             $query = $this->db->query('CREATE TABLE `users` (
                 `user_id` INT NOT NULL AUTO_INCREMENT UNIQUE,
                 `username` varchar(255) NOT NULL UNIQUE,
-                `password` varchar(255) NOT NULL UNIQUE,
+                `password` varchar(255) NOT NULL,
                 `create_date` TIMESTAMP NOT NULL,
                 PRIMARY KEY (`user_id`)
             )');

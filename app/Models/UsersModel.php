@@ -242,4 +242,14 @@ class UsersModel extends Model
         }
         return true;
     }
+    
+    //DELETE USER
+    function removeuser($username) {
+        try{     
+            $query = $this->db->query('DELETE FROM users WHERE username = "'.$username.'" ');
+        } catch(\Throwable $th) {     
+            return false;
+        }
+            return true;
+    }
 }

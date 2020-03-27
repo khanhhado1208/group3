@@ -3,6 +3,8 @@
 use CodeIgniter\Controller;
 use App\Models\UsersModel;
 use App\Controllers\Pages;
+use DateTime;
+use DateInterval;
  
 class Account extends BaseController
 {
@@ -22,10 +24,105 @@ class Account extends BaseController
             $data['userstonks'] = $userstonks;
             $stonkproperties = $model->get_stonk_properties();
             $data['stonkproperties'] = $stonkproperties;
+            $pricenow = $this->generatePriceData('now');
+            $data['pricenow'] = $pricenow;
+            if($page == 'exchange') {
+                $hourlydata = $this->generatePriceData('lasthour');
+                $dailydata = $this->generatePriceData('lastday');
+                $weeklydata = $this->generatePriceData('lastweek');
+                $data['hourlydata'] = $hourlydata;
+                $data['dailydata'] = $dailydata;
+                $data['weeklydata'] = $weeklydata;
+            }
         }
 
         return $data;
     } 
+    public function generatePriceData($period){
+        $model = new UsersModel();
+        if($period == 'lasthour') {
+            $date = new DateTime();
+            $hourarr = [];
+            for ($i = 0; $i < count($model->get_stonk_properties()); $i++) {
+                $pricearr = [];
+                for ($a = 0; $a < 60; $a++) {
+                    mt_srand($date->format("dHi") * 3.14);
+                    $gen = mt_rand(0, 10);
+                    $vol = 10;
+                    $base = 100;
+                    $change = 2 * $vol * $gen;
+                    if($change > $vol) {
+                        $change -= (2 * $vol);
+                    }
+                    $price = $base + $change;
+                    $date->sub(new DateInterval('PT1M'));
+                    array_push($pricearr, $price);
+                }
+                array_push($hourarr, $pricearr);
+            }
+            return $hourarr;
+        } elseif ($period == 'lastday') {
+            $date = new DateTime();
+            $dayarr = [];
+            for ($i = 0; $i < count($model->get_stonk_properties()); $i++) {
+                $pricearr = [];
+                for ($a = 0; $a < 24; $a++) {
+                    mt_srand($date->format("dHi") * 3.14);
+                    $gen = mt_rand(0, 10);
+                    $vol = 10;
+                    $base = 100;
+                    $change = 2 * $vol * $gen;
+                    if($change > $vol) {
+                        $change -= (2 * $vol);
+                    }
+                    $price = $base + $change;
+                    $date->sub(new DateInterval('PT1H'));
+                    array_push($pricearr, $price);
+                }
+                array_push($dayarr, $pricearr);
+            }
+            return $dayarr;
+        } elseif ($period == 'lastweek') {
+            $date = new DateTime();
+            $weekarr = [];
+            for ($i = 0; $i < count($model->get_stonk_properties()); $i++) {
+                $pricearr = [];
+                for ($a = 0; $a < 7; $a++) {
+                    mt_srand($date->format("dHi") * 3.14);
+                    $gen = mt_rand(0, 10);
+                    $vol = 10;
+                    $base = 100;
+                    $change = 2 * $vol * $gen;
+                    if($change > $vol) {
+                        $change -= (2 * $vol);
+                    }
+                    $price = $base + $change;
+                    $date->sub(new DateInterval('P1D'));
+                    array_push($pricearr, $price);
+                }
+                array_push($weekarr, $pricearr);
+            }
+            return $weekarr;
+        } else {
+            $date = new DateTime();
+            $date_now = $date->format("dHi");
+            $pricearr = [];
+            for ($i = 0; $i < count($model->get_stonk_properties()); $i++) {
+                mt_srand($date_now * 3.14);
+                $gen = mt_rand(0, 10);
+                $vol = 10;
+                $base = 100;
+                $change = 2 * $vol * $gen;
+                if($change > $vol) {
+                    $change -= (2 * $vol);
+                }
+                $price = $base + $change;
+                array_push($pricearr, $price);
+            }
+            return $pricearr;
+        }
+    }
+
 
     //GET USER ACCOUNT BALANCE
     public function getBalance($username) {

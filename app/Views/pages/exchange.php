@@ -51,6 +51,7 @@ echo '<div class="tab-pane fade show active" id="v-pills-'.$stonkproperties[0]->
 <p class=h3>'.$stonkproperties[0]->stonk_name.'</p>
 <p class=h6><a href="#">'.$stonkproperties[0]->issuer_name.'</a></p>
 <p>Information about this stonk: '.$stonkproperties[0]->stonk_desc.'</p>
+<p>Current value: '.$pricenow[0].'stonk$</p>
 <a href="'.base_url('/quicktrade').'"><button class="btn btn-success">Buy/Sell</button></a>
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
@@ -85,7 +86,7 @@ echo '<div class="tab-pane fade show active" id="v-pills-'.$stonkproperties[0]->
             labels: ["'.implode('", "', $hourly).'"],
             datasets: [{
                 label: "Value in stonk$",
-                data: ["'.implode('", "', $hourly).'"],
+                data: ["'.implode('", "', $hourlydata[0]).'"],
                 backgroundColor: "rgba(0, 0, 255, 0.6)",
                 borderColor: "rgba(0, 0, 0, 0.3)",
                 borderWidth: 2 }] }
@@ -93,7 +94,7 @@ echo '<div class="tab-pane fade show active" id="v-pills-'.$stonkproperties[0]->
         labels: ["'.implode('", "', $daily).'"],
         datasets: [{
             label: "Value in stonk$",
-            data: ["'.implode('", "', $daily).'"],
+            data: ["'.implode('", "', $dailydata[0]).'"],
             backgroundColor: "rgba(0, 0, 255, 0.6)",
             borderColor: "rgba(0, 0, 0, 0.3)",
             borderWidth: 2 }] }
@@ -101,7 +102,7 @@ echo '<div class="tab-pane fade show active" id="v-pills-'.$stonkproperties[0]->
         labels: ["'.implode('", "', $weekly).'"],
         datasets: [{
             label: "Value in stonk$",
-            data: ["'.implode('", "', $weekly).'"],
+            data: ["'.implode('", "', $weeklydata[0]).'"],
             backgroundColor: "rgba(0, 0, 255, 0.6)",
             borderColor: "rgba(0, 0, 0, 0.3)",
             borderWidth: 2 }] }
@@ -126,29 +127,30 @@ for ($i = 1; $i < count($stonkproperties); $i++) {
     <p class=h3>'.$stonkproperties[$i]->stonk_name.'</p>
     <p class=h6><a href="#">'.$stonkproperties[$i]->issuer_name.'</a></p>
     <p>Information about this stonk: '.$stonkproperties[$i]->stonk_desc.'</p>
+    <p>Current value '.$pricenow[$i].'stonk$</p>
     <a href="'.base_url('/quicktrade').'"><button class="btn btn-success">Buy/Sell</button></a>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
     <a class="nav-link disabled" href="#">Price graph</a>
     </li>
     <li class="nav-item">
-    <a class="nav-link active" id="hourly-tab" data-toggle="tab" href="#hourly" role="tab" aria-controls="hourly" aria-selected="true">1h</a>
+    <a class="nav-link active" id="hourly'.$i.'-tab" data-toggle="tab" href="#hourly'.$i.'" role="tab" aria-controls="hourly'.$i.'" aria-selected="true">1h</a>
     </li>
     <li class="nav-item">
-    <a class="nav-link" id="daily-tab" data-toggle="tab" href="#daily" role="tab" aria-controls="daily" aria-selected="false">1d</a>
+    <a class="nav-link" id="daily'.$i.'-tab" data-toggle="tab" href="#daily'.$i.'" role="tab" aria-controls="daily'.$i.'" aria-selected="false">1d</a>
     </li>
     <li class="nav-item">
-    <a class="nav-link" id="weekly-tab" data-toggle="tab" href="#weekly" role="tab" aria-controls="weekly" aria-selected="false">1w</a>
+    <a class="nav-link" id="weekly'.$i.'-tab" data-toggle="tab" href="#weekly'.$i.'" role="tab" aria-controls="weekly'.$i.'" aria-selected="false">1w</a>
     </li>
     </ul>
-    <div class="tab-content" id="myTabContent">
-    <div class="tab-pane show active" id="hourly" role="tabpanel" aria-labelledby="hourly-tab">
+    <div class="tab-content" id="myTabContent'.$i.'">
+    <div class="tab-pane show active" id="hourly'.$i.'" role="tabpanel" aria-labelledby="hourly'.$i.'-tab">
     <canvas id="hourlyChart'.$i.'"></canvas>
     </div>
-    <div class="tab-pane" id="daily" role="tabpanel" aria-labelledby="daily-tab">
+    <div class="tab-pane" id="daily'.$i.'" role="tabpanel" aria-labelledby="daily'.$i.'-tab">
     <canvas id="dailyChart'.$i.'"></canvas>
     </div>
-    <div class="tab-pane" id="weekly" role="tabpanel" aria-labelledby="weekly-tab">
+    <div class="tab-pane" id="weekly'.$i.'" role="tabpanel" aria-labelledby="weekly'.$i.'-tab">
     <canvas id="weeklyChart'.$i.'"></canvas>
     </div> 
     </div>
@@ -160,7 +162,7 @@ for ($i = 1; $i < count($stonkproperties); $i++) {
             labels: ["'.implode('", "', $hourly).'"],
             datasets: [{
                 label: "Value in stonk$",
-                data: ["'.implode('", "', $hourly).'"],
+                data: ["'.implode('", "', $hourlydata[$i]).'"],
                 backgroundColor: "rgba(0, 0, 255, 0.6)",
                 borderColor: "rgba(0, 0, 0, 0.3)",
                 borderWidth: 2 }] }
@@ -168,7 +170,7 @@ for ($i = 1; $i < count($stonkproperties); $i++) {
         labels: ["'.implode('", "', $daily).'"],
         datasets: [{
             label: "Value in stonk$",
-            data: ["'.implode('", "', $daily).'"],
+            data: ["'.implode('", "', $dailydata[$i]).'"],
             backgroundColor: "rgba(0, 0, 255, 0.6)",
             borderColor: "rgba(0, 0, 0, 0.3)",
             borderWidth: 2 }] }
@@ -176,7 +178,7 @@ for ($i = 1; $i < count($stonkproperties); $i++) {
         labels: ["'.implode('", "', $weekly).'"],
         datasets: [{
             label: "Value in stonk$",
-            data: ["'.implode('", "', $weekly).'"],
+            data: ["'.implode('", "', $weeklydata[$i]).'"],
             backgroundColor: "rgba(0, 0, 255, 0.6)",
             borderColor: "rgba(0, 0, 0, 0.3)",
             borderWidth: 2 }] }

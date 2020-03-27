@@ -48,8 +48,8 @@ class Account extends BaseController
                 for ($a = 0; $a < 60; $a++) {
                     mt_srand($date->format("dHi") * 3.14);
                     $gen = mt_rand(0, 10);
-                    $vol = 10;
-                    $base = 100;
+                    $vol = $model->get_stonk_properties()[$i]->volatility;
+                    $base = $model->get_stonk_properties()[$i]->base;
                     $change = 2 * $vol * $gen;
                     if($change > $vol) {
                         $change -= (2 * $vol);
@@ -69,8 +69,8 @@ class Account extends BaseController
                 for ($a = 0; $a < 24; $a++) {
                     mt_srand($date->format("dHi") * 3.14);
                     $gen = mt_rand(0, 10);
-                    $vol = 10;
-                    $base = 100;
+                    $vol = $model->get_stonk_properties()[$i]->volatility;
+                    $base = $model->get_stonk_properties()[$i]->base;
                     $change = 2 * $vol * $gen;
                     if($change > $vol) {
                         $change -= (2 * $vol);
@@ -90,8 +90,8 @@ class Account extends BaseController
                 for ($a = 0; $a < 7; $a++) {
                     mt_srand($date->format("dHi") * 3.14);
                     $gen = mt_rand(0, 10);
-                    $vol = 10;
-                    $base = 100;
+                    $vol = $model->get_stonk_properties()[$i]->volatility;
+                    $base = $model->get_stonk_properties()[$i]->base;
                     $change = 2 * $vol * $gen;
                     if($change > $vol) {
                         $change -= (2 * $vol);
@@ -110,8 +110,8 @@ class Account extends BaseController
             for ($i = 0; $i < count($model->get_stonk_properties()); $i++) {
                 mt_srand($date_now * 3.14);
                 $gen = mt_rand(0, 10);
-                $vol = 10;
-                $base = 100;
+                $vol = $model->get_stonk_properties()[$i]->volatility;
+                $base = $model->get_stonk_properties()[$i]->base;
                 $change = 2 * $vol * $gen;
                 if($change > $vol) {
                     $change -= (2 * $vol);

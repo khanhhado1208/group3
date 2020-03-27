@@ -66,7 +66,8 @@ let maxAmount;
 
 //STONK DROPDOWN SELECTION
 function selectStonk(index, name) {
-  stonkPrice = Math.floor(Math.random() * 100) + 1;
+  PriceArray = ["<?php echo implode('", "', $pricenow); ?>"];
+  stonkPrice = PriceArray[index];
 
   stonkidElement.value = index;
   stonkElement.innerHTML = name;

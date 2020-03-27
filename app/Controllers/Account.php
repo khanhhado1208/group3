@@ -41,9 +41,9 @@ class Account extends BaseController
     public function generatePriceData($period){
         $model = new UsersModel();
         if($period == 'lasthour') {
-            $date = new DateTime();
             $hourarr = [];
             for ($i = 0; $i < count($model->get_stonk_properties()); $i++) {
+                $date = new DateTime();
                 $pricearr = [];
                 for ($a = 0; $a < 60; $a++) {
                     mt_srand($date->format("dHi") * 3.14);
@@ -58,13 +58,13 @@ class Account extends BaseController
                     $date->sub(new DateInterval('PT1M'));
                     array_push($pricearr, $price);
                 }
-                array_push($hourarr, $pricearr);
+                array_push($hourarr, array_reverse($pricearr));
             }
             return $hourarr;
         } elseif ($period == 'lastday') {
-            $date = new DateTime();
             $dayarr = [];
             for ($i = 0; $i < count($model->get_stonk_properties()); $i++) {
+                $date = new DateTime();
                 $pricearr = [];
                 for ($a = 0; $a < 24; $a++) {
                     mt_srand($date->format("dHi") * 3.14);
@@ -79,13 +79,13 @@ class Account extends BaseController
                     $date->sub(new DateInterval('PT1H'));
                     array_push($pricearr, $price);
                 }
-                array_push($dayarr, $pricearr);
+                array_push($dayarr, array_reverse($pricearr));
             }
             return $dayarr;
         } elseif ($period == 'lastweek') {
-            $date = new DateTime();
             $weekarr = [];
             for ($i = 0; $i < count($model->get_stonk_properties()); $i++) {
+                $date = new DateTime();
                 $pricearr = [];
                 for ($a = 0; $a < 7; $a++) {
                     mt_srand($date->format("dHi") * 3.14);
@@ -100,7 +100,7 @@ class Account extends BaseController
                     $date->sub(new DateInterval('P1D'));
                     array_push($pricearr, $price);
                 }
-                array_push($weekarr, $pricearr);
+                array_push($weekarr, array_reverse($pricearr));
             }
             return $weekarr;
         } else {

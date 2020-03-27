@@ -14,9 +14,9 @@
            <button type="submit" id="send_form" class="btn btn-success">Logout</button>
           </div>
         </form>
-        <a href="/wallet"><button class="btn btn-success">Wallet</button></a>
+        <a href="<?php echo base_url('/wallet') ?>"><button class="btn btn-success">Wallet</button></a>
         
-           <a href="/unregister"><button class="btn btn-danger">Delete account</button></a>
+           <a href="<?php echo base_url('/unregister') ?>"><button class="btn btn-danger">Delete account</button></a>
       </div>
  
     </div>

@@ -7,14 +7,14 @@
             <h3>Welcome, <?= $username ?>! </h3>
             <h2>Balance: <?= $balance ?> STONK$ </h2>
                 <div class="row">
-                        <a href='/wallet'><button class="btn btn-light">Manage my wallet</button></a>
+                        <a href='<?php echo base_url('/wallet') ?>'><button class="btn btn-light">Manage my wallet</button></a>
                 </div>
             </div>
             <div class="col card">
             <?php
                 if (count($history) == 0){
                     echo '<p class="h4">No recent activity.</p><br>
-                        <a href="/exchange">Start trading today!</a>';
+                        <a href="'.base_url('/exchange').'">Start trading today!</a>';
                 } else {
                     echo "<table class=\"table\">";
                     echo "<thead><th colspan=\"3\">Recent Activity<th></thead>";

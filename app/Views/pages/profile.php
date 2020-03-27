@@ -15,9 +15,12 @@
           </div>
         </form>
         <a href="<?php echo base_url('/wallet') ?>"><button class="btn btn-success">Wallet</button></a>
+        <br>
+        <br>
+        <a href="<?php echo base_url('/changepassword') ?>"><button class="btn btn-success">Change your password</button></a>
         
         <form action="<?php echo base_url('/account/deleteuser') ?>" method="post" accept-charset="utf-8">
-            <br><br><br>
+            <br>
            <a><button class="btn btn-danger">Delete account</button></a>
         </form>
 

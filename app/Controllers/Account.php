@@ -267,9 +267,13 @@ class Account extends BaseController
                 $success = $model->check_credentials($username, $password);
                 if ($success){
                     $this->setErrorState('success', 'Authentication successful');
+                    $_SESSION['logged_in'] = true;
+                    $_SESSION['username'] = $username;
                     $pageController->get('dashboard');
                 } else {
                     $this->setErrorState('danger', 'Could not authenticate');
+                    unset($_SESSION['logged_in']);
+                    unset($_SESSION['username']);
                     $pageController->get('login');
                 }
             }

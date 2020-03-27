@@ -98,22 +98,15 @@ class UsersModel extends Model
     //CHECK USER CREDENTIALS ON LOGIN
     public function check_credentials($username, $password)
     {
-        $session = \Config\Services::session();
         $query = $this->db->query('SELECT * FROM users WHERE (username="'.$username.'")');
         if (count($query->getResult()) > 0) {
             $results = $query->getRow();
             if (password_verify($password, $results->password) == true) {
-                $_SESSION['logged_in'] = true;
-                $_SESSION['username'] = $username;
                 return true;
             } else {
-                unset($_SESSION['logged_in']);
-                unset($_SESSION['username']);
                 return false;
             }
         } else {
-            unset($_SESSION['logged_in']);
-            unset($_SESSION['username']);
             return false;
         }
     }

@@ -14,7 +14,7 @@
             <?php
                 if (count($history) == 0){
                     echo '<p class="h4">No recent activity.</p><br>
-                        <a href="'.base_url('/quicktrade').'">Start trading today!</a>';
+                        <a href="'.base_url('/exchange').'">Start trading today!</a>';
                 } else {
                     echo "<table class=\"table\">";
                     echo "<thead><th colspan=\"3\">Recent Activity<th></thead>";

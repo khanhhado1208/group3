@@ -4,7 +4,7 @@
  
     <div class="row">
       <div class="col-md-9">
-        <form action="<?php echo base_url('index.php/account/authenticate') ?>" method="post" accept-charset="utf-8">
+        <form action="<?php echo base_url('/account/authenticate') ?>" method="post" accept-charset="utf-8">
  
           <div class="form-group">
             <label for="formGroupExampleInput">Username</label>

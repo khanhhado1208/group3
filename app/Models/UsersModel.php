@@ -246,6 +246,9 @@ class UsersModel extends Model
     //DELETE USER
     function removeuser($username) {
         try{     
+            $query = $this->db->query('SELECT (user_id) FROM users WHERE username = "'.$username.'" ');
+            $id = $query->getRow()->user_id;
+            $query = $this->db->query('DELETE FROM transactions WHERE user_id = "'.$id.'" ');
             $query = $this->db->query('DELETE FROM users WHERE username = "'.$username.'" ');
         } catch(\Throwable $th) {     
             return false;

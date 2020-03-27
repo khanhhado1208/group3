@@ -189,7 +189,10 @@ class Account extends BaseController
             $username = $_SESSION['username'];
             $amount = $this->request->getVar('amount');
             $current_funds = $model->check_balance($username);
-            if ($current_funds < $amount) {
+            if(!is_numeric($amount) || $amount < 0) {
+                $this->setErrorState('danger', 'Enter a valid amount');
+                $pageController->get('withdraw');
+            } else if ($current_funds < $amount) {
                 $this->setErrorState('danger', 'Insufficient funds');
                 $pageController->get('home');
             } else {

@@ -175,6 +175,8 @@ class UsersModel extends Model
                 `issuer_id` INT NOT NULL,
                 `stonk_desc` TEXT NOT NULL,
                 `stonk_tradable` BOOLEAN NOT NULL,
+                `volatility` INT,
+                `base` INT,
                 PRIMARY KEY (`stonk_id`),
                 FOREIGN KEY (`issuer_id`) REFERENCES issuers(issuer_id)
             )');
@@ -218,8 +220,8 @@ class UsersModel extends Model
             for ($i = rand(1, 5); $i > 0; $i--) {
                 $query = $this->db->query(
                     'INSERT INTO stonks 
-                    (stonk_name, issuer_id, stonk_desc, stonk_tradable) VALUES
-                    ("Stock No. '.$i.'", 2, "Stock", true)'
+                    (stonk_name, issuer_id, stonk_desc, stonk_tradable, base, volatility) VALUES
+                    ("Stock No. '.$i.'", 2, "Stock", true, '.rand(1, 100).', '.rand(1, 100).')'
                 );
             }
         } catch (\Throwable $th) {

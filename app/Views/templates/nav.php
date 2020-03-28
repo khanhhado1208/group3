@@ -9,12 +9,12 @@
       <?php
       foreach ($navItems as $navLink => $navItem){
         echo '<li class="nav-item active">';
-        echo '<a class="nav-link" href="/'.$navLink.'">'.$navItem.'</a>';
+        echo '<a class="nav-link" href="'.base_url("/".$navLink).'">'.$navItem.'</a>';
         echo '</li>';
       }
       if($balance > 0){
         echo '<li class="nav-item">';
-        echo '<a class="nav-link" href="/wallet">Balance: '.$balance.'</a>';
+        echo '<a class="nav-link" href="'.base_url("/wallet").'">Balance: '.$balance.'</a>';
         echo '</li>';
       }
       ?>

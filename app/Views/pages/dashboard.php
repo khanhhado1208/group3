@@ -1,3 +1,16 @@
+<style>
+
+.p {
+    opacity: 1;
+}
+
+.animated {
+    opacity: 0;
+    transition: all 0.5s;
+}
+
+</style>
+
 <div class="container">
     <br>
     <?= \Config\Services::validation()->listErrors(); ?>
@@ -12,7 +25,7 @@
             </div>
             <div class="col card">
             <?php
-                if (count($history) == 0){
+                if (count($history) == 0) {
                     echo '<p class="h4">No recent activity.</p><br>
                         <a href="'.base_url('/exchange').'">Start trading today!</a>';
                 } else {
@@ -28,7 +41,9 @@
                         echo $row->tx_date;
                         echo "</td><tr>";
                         $max_displayed_rows -= 1;
-                        if ($max_displayed_rows == 0) break;
+                        if ($max_displayed_rows == 0) {
+                            break;
+                        }
                     }
                     echo "</table>";
                 }
@@ -49,18 +64,16 @@
                         label: '# of transactions',
                         <?php
                                 $txvol = [0, 0, 0, 0, 0, 0, 0];
-                            foreach ($history as $row)
-                            {
+                            foreach ($history as $row) {
                                 $row = var_export($row->tx_date, true);
                                 $date = new DateTime();
                                 for ($x = 0; $x <= 5; $x++) {
                                     $check = $date->format('Y-m-d');
-                                    if(strpos($row, $check) !== false){
+                                    if (strpos($row, $check) !== false) {
                                         $txvol[$x] += 1;
                                     }
                                     $date->sub(new DateInterval('P1D'));
                                 }
-
                             }
                             $array = array_reverse($txvol);
                             echo "data: ['".$array[0]."', '".$array[1]."','".$array[2]."','".$array[3]."','".$array[4]."','".$array[5]."','".$array[6]."',],";
@@ -93,11 +106,44 @@
         </div>
         <div class="row">
             <div class="col card">
-            <p class="h4">Announcements</p>
-
-            </div>
-            <div class="col card">
-            <p class="h4">Live site activity</p>
+            <p id="headline" class="h4 ">Announcements</p>
+            <p id="story">Check out the site announcements here!</p>
             </div>
         </div>
     </div>
+</div>
+
+<script>
+
+let announcements = [];
+
+fetch("<?php echo base_url('/json/announcements.json') ?>")
+    .then(res => res.json())
+    .then(
+        (result) => {
+            announcements = result.announcements;
+        },
+        (error) => {}
+    );
+
+let index = 0;
+let headline = document.getElementById("headline");
+let story = document.getElementById("story");
+
+setInterval(() => {
+    headline.classList.add("animated");
+    story.classList.add("animated");
+
+    index = index + 1;
+    if (index >= announcements.length) {
+        index = 0;
+    }
+    setTimeout(function(){
+        headline.innerHTML = announcements[index].headline;
+        story.innerHTML = announcements[index].story;
+        headline.classList.remove("animated");
+        story.classList.remove("animated");
+    }, 500);
+}, 5000);
+
+</script>

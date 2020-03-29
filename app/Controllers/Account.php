@@ -223,6 +223,14 @@ class Account extends BaseController
             $amount = $this->request->getVar('amount');
             $value = $this->request->getVar('value');
 
+            //The index must be moved by two to re-sync with actual stonk_id in database
+            $pricenow = $this->getDynamicData()['pricenow'][$stonkid - 2];
+            if ($value != $amount * $pricenow) {
+                $this->setErrorState('danger', 'Stonk Price Mismatch, Please Try Again');
+                $pageController->get('home');
+                return;
+            }
+
             if ($this->request->getVar('operation') == "buy") {
                 $current_funds = $model->check_balance($username);
                 if ($current_funds < $value) {

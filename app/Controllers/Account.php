@@ -62,7 +62,7 @@ class Account extends BaseController
                     $date->sub(new DateInterval('PT1M'));
                     array_push($pricearr, $price);
                 }
-                array_push($hourarr, array_reverse($pricearr));
+                $hourarr[$stonks->get_stonk_properties()[$i]->stonk_id] = array_reverse($pricearr);
             }
             return $hourarr;
         } elseif ($period == 'lastday') {
@@ -83,7 +83,7 @@ class Account extends BaseController
                     $date->sub(new DateInterval('PT1H'));
                     array_push($pricearr, $price);
                 }
-                array_push($dayarr, array_reverse($pricearr));
+                $dayarr[$stonks->get_stonk_properties()[$i]->stonk_id] = array_reverse($pricearr);
             }
             return $dayarr;
         } elseif ($period == 'lastweek') {
@@ -104,7 +104,7 @@ class Account extends BaseController
                     $date->sub(new DateInterval('P1D'));
                     array_push($pricearr, $price);
                 }
-                array_push($weekarr, array_reverse($pricearr));
+                $weekarr[$stonks->get_stonk_properties()[$i]->stonk_id] = $pricearr;
             }
             return $weekarr;
         } else {
@@ -121,7 +121,7 @@ class Account extends BaseController
                     $change -= (2 * $vol);
                 }
                 $price = $base + $change;
-                array_push($pricearr, $price);
+                $pricearr[$stonks->get_stonk_properties()[$i]->stonk_id] = $price;
             }
             return $pricearr;
         }
@@ -229,8 +229,7 @@ class Account extends BaseController
             $amount = $this->request->getVar('amount');
             $value = $this->request->getVar('value');
 
-            //The index must be moved by two to re-sync with actual stonk_id in database
-            $pricenow = $this->getDynamicData()['pricenow'][$stonkid - 2];
+            $pricenow = $this->getDynamicData()['pricenow'][$stonkid];
             if ($value != $amount * $pricenow) {
                 $this->setErrorState('danger', 'Stonk Price Mismatch, Please Try Again');
                 $pageController->get('home');

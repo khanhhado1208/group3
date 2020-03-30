@@ -20,7 +20,7 @@
                     <?php
                     
                     foreach ($stonkproperties as $stonk) {
-                      echo '<button class="dropdown-item" onclick="selectStonk('.$stonk->stonk_id.',\''.$stonk->stonk_name.'\')" type="button">'.$stonk->stonk_name.'</button>';
+                        echo '<button class="dropdown-item" onclick="selectStonk('.$stonk->stonk_id.',\''.$stonk->stonk_name.'\')" type="button">'.$stonk->stonk_name.'</button>';
                     }
 
                     ?>
@@ -66,9 +66,14 @@ let maxAmount;
 
 //STONK DROPDOWN SELECTION
 function selectStonk(index, name) {
-  PriceArray = ["<?php echo implode('", "', $pricenow); ?>"];
-  //The index must be moved by two to re-sync with actual stonk_id in database
-  stonkPrice = PriceArray[index - 2];
+  let PriceArrayJSON = <?php echo json_encode($pricenow) ?>;
+  let PriceArray = [];
+
+  Object.keys(PriceArrayJSON).forEach(key => {
+    PriceArray[key] = PriceArrayJSON[key];
+  });
+
+  stonkPrice = PriceArray[index];
 
   stonkidElement.value = index;
   stonkElement.innerHTML = name;

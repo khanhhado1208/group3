@@ -51,7 +51,7 @@ echo '<div class="tab-pane fade show active" id="v-pills-'.$stonkproperties[0]->
 <p class=h3>'.$stonkproperties[0]->stonk_name.'</p>
 <p class=h6><a href="#">'.$stonkproperties[0]->issuer_name.'</a></p>
 <p>Information about this stonk: '.$stonkproperties[0]->stonk_desc.'</p>
-<p>Current value: '.$pricenow[0].'stonk$</p>
+<p>Current value: '.$pricenow[$stonkproperties[0]->stonk_id].'stonk$</p>
 <a href="'.base_url('/quicktrade').'"><button class="btn btn-success">Buy/Sell</button></a>
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
@@ -86,7 +86,7 @@ echo '<div class="tab-pane fade show active" id="v-pills-'.$stonkproperties[0]->
             labels: ["'.implode('", "', $hourly).'"],
             datasets: [{
                 label: "Value in stonk$",
-                data: ["'.implode('", "', $hourlydata[0]).'"],
+                data: ["'.implode('", "', $hourlydata[$stonkproperties[0]->stonk_id]).'"],
                 backgroundColor: "rgba(0, 0, 255, 0.6)",
                 borderColor: "rgba(0, 0, 0, 0.3)",
                 borderWidth: 2 }] }
@@ -94,7 +94,7 @@ echo '<div class="tab-pane fade show active" id="v-pills-'.$stonkproperties[0]->
         labels: ["'.implode('", "', $daily).'"],
         datasets: [{
             label: "Value in stonk$",
-            data: ["'.implode('", "', $dailydata[0]).'"],
+            data: ["'.implode('", "', $dailydata[$stonkproperties[0]->stonk_id]).'"],
             backgroundColor: "rgba(0, 0, 255, 0.6)",
             borderColor: "rgba(0, 0, 0, 0.3)",
             borderWidth: 2 }] }
@@ -102,7 +102,7 @@ echo '<div class="tab-pane fade show active" id="v-pills-'.$stonkproperties[0]->
         labels: ["'.implode('", "', $weekly).'"],
         datasets: [{
             label: "Value in stonk$",
-            data: ["'.implode('", "', $weeklydata[0]).'"],
+            data: ["'.implode('", "', $weeklydata[$stonkproperties[0]->stonk_id]).'"],
             backgroundColor: "rgba(0, 0, 255, 0.6)",
             borderColor: "rgba(0, 0, 0, 0.3)",
             borderWidth: 2 }] }
@@ -127,7 +127,7 @@ for ($i = 1; $i < count($stonkproperties); $i++) {
     <p class=h3>'.$stonkproperties[$i]->stonk_name.'</p>
     <p class=h6><a href="#">'.$stonkproperties[$i]->issuer_name.'</a></p>
     <p>Information about this stonk: '.$stonkproperties[$i]->stonk_desc.'</p>
-    <p>Current value '.$pricenow[$i].'stonk$</p>
+    <p>Current value '.$pricenow[$stonkproperties[$i]->stonk_id].'stonk$</p>
     <a href="'.base_url('/quicktrade').'"><button class="btn btn-success">Buy/Sell</button></a>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
@@ -162,7 +162,7 @@ for ($i = 1; $i < count($stonkproperties); $i++) {
             labels: ["'.implode('", "', $hourly).'"],
             datasets: [{
                 label: "Value in stonk$",
-                data: ["'.implode('", "', $hourlydata[$i]).'"],
+                data: ["'.implode('", "', $hourlydata[$stonkproperties[$i]->stonk_id]).'"],
                 backgroundColor: "rgba(0, 0, 255, 0.6)",
                 borderColor: "rgba(0, 0, 0, 0.3)",
                 borderWidth: 2 }] }
@@ -170,7 +170,7 @@ for ($i = 1; $i < count($stonkproperties); $i++) {
         labels: ["'.implode('", "', $daily).'"],
         datasets: [{
             label: "Value in stonk$",
-            data: ["'.implode('", "', $dailydata[$i]).'"],
+            data: ["'.implode('", "', $dailydata[$stonkproperties[$i]->stonk_id]).'"],
             backgroundColor: "rgba(0, 0, 255, 0.6)",
             borderColor: "rgba(0, 0, 0, 0.3)",
             borderWidth: 2 }] }
@@ -178,7 +178,7 @@ for ($i = 1; $i < count($stonkproperties); $i++) {
         labels: ["'.implode('", "', $weekly).'"],
         datasets: [{
             label: "Value in stonk$",
-            data: ["'.implode('", "', $weeklydata[$i]).'"],
+            data: ["'.implode('", "', $weeklydata[$stonkproperties[$i]->stonk_id]).'"],
             backgroundColor: "rgba(0, 0, 255, 0.6)",
             borderColor: "rgba(0, 0, 0, 0.3)",
             borderWidth: 2 }] }

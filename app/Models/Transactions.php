@@ -5,10 +5,16 @@ class Transactions extends Database {
     public function money_transaction($username, $amount, $message)
     {
         try {
-            $query = $this->db->query('SELECT (user_id) FROM users WHERE username="'.$username.'"');
+            $query = $this->db->table('users')->select('user_id')->where('username', $username)->get();
             $id = $query->getRow()->user_id;
-    
-            $query = $this->db->query('INSERT INTO transactions (user_id, tx_type, tx_value, stonk_id, stonk_amount) VALUES ('.$id.',"'.$message.'",'.$amount.', "1", "0")');
+            $data = [
+                'user_id' => $id,
+                'tx_type' => $message,
+                'tx_value' => $amount,
+                'stonk_id' => '1',
+                'stonk_amount' => '0'
+            ];
+            $query = $this->db->table('transactions')->insert($data);
         } catch (\Throwable $th) {
             return false;
         }
@@ -18,14 +24,17 @@ class Transactions extends Database {
     public function stonk_transaction($username, $moneyamount, $stonkid, $stonkamount, $message)
     {
         try {
-            $query = $this->db->query('SELECT (user_id) FROM users WHERE username="'.$username.'"');
+            $query = $this->db->table('users')->select('user_id')->where('username', $username)->get();
             $id = $query->getRow()->user_id;
-
-            $query = $this->db->query('INSERT INTO 
-                transactions (user_id, tx_type, tx_value, stonk_id, stonk_amount)
-                VALUES ('.$id.', "'.$message.'", '.$moneyamount.', '.$stonkid.', '.$stonkamount.')');
+            $data = [
+                'user_id' => $id,
+                'tx_type' => $message,
+                'tx_value' => $moneyamount,
+                'stonk_id' => $stonkid,
+                'stonk_amount' => $stonkamount
+            ];
+            $query = $this->db->table('transactions')->insert($data);
         } catch (\Throwable $th) {
-            log_message('error', $th);
             return false;
         }
         return true;

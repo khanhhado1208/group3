@@ -1,8 +1,8 @@
 <div class="container">
-<br>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
-<div class='row'>
-<?php 
+    <br>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
+    <div class='row'>
+        <?php 
 
 $date = new DateTime();
 $hourly = [];
@@ -201,5 +201,5 @@ for ($i = 1; $i < count($stonkproperties); $i++) {
 echo '</div></div>';
 ?>
 
-</div>
+    </div>
 </div>

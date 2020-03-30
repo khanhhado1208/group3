@@ -1,3 +1,3 @@
 <div class="alert alert-<?= $state ?>" role="alert">
-  <?= $message ?>
+    <?= $message ?>
 </div>

@@ -1,9 +1,11 @@
-<?php namespace App\Models;
+<?php
+namespace App\Models;
 
 use CodeIgniter\Database\ConnectionInterface;
 use CodeIgniter\Model;
 
-class Database extends Model {
+class Database extends Model
+{
     protected $db;
 
     //MODEL CONSTRUCTOR

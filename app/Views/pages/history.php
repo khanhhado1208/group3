@@ -1,15 +1,15 @@
 <div class="container">
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Value</th>
-      <th scope="col">Type</th>
-      <th scope="col">Date</th>
-    </tr>
-  </thead>
-  <tbody>
-  
-<?php
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Value</th>
+                <th scope="col">Type</th>
+                <th scope="col">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <?php
 foreach (array_reverse($history) as $row) {
     echo "</tr><td>";
     echo $row->tx_value;
@@ -28,6 +28,6 @@ foreach (array_reverse($history) as $row) {
     echo "</td><tr>";
 }
 ?>
-  </tbody>
-</table>
+        </tbody>
+    </table>
 </div>

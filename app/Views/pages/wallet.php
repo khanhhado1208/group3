@@ -3,13 +3,13 @@
         <div class="col card">
             <h4><?= $username ?>'s Wallet </h4>
             <h5>Balance: <?= $balance ?> STONK$ </h5>
-            <a href='<?php echo base_url(' /topup ') ?>'>
+            <a href='<?php echo base_url('/topup') ?>'>
                 <button class="btn btn-light">Deposit</button>
             </a>
-            <a href='<?php echo base_url(' /withdraw ') ?>'>
+            <a href='<?php echo base_url('/withdraw') ?>'>
                 <button class="btn btn-light">Withdraw</button>
             </a>
-            <a href='<?php echo base_url(' /history ') ?>'>
+            <a href='<?php echo base_url('/history') ?>'>
                 <button class="btn btn-light">History</button>
             </a>
         </div>

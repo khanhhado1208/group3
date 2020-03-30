@@ -18,7 +18,7 @@
                     <h3>Welcome, <?= $username ?>! </h3>
                     <h2>Balance: <?= $balance ?> STONK$ </h2>
                     <div class="row">
-                        <a href='<?php echo base_url(' /wallet ') ?>'>
+                        <a href='<?php echo base_url('/wallet') ?>'>
                             <button class="btn btn-light">Manage my wallet</button>
                         </a>
                     </div>

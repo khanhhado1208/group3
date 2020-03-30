@@ -89,11 +89,13 @@ class TX extends BaseController
             $amount = $this->request->getVar('amount');
             $value = $this->request->getVar('value');
 
-            $pricenow = $pages->getData()['pricenow'][$stonkid];
-            if ($value != $amount * $pricenow) {
-                $error->setErrorState('danger', 'Stonk Price Mismatch, Please Try Again');
-                $pages->get('home');
-                return;
+            if (!is_null($stonkid) && !is_null($amount) && !is_null($value)) {
+                $pricenow = $pages->getData()['pricenow'][$stonkid];
+                if ($value != $amount * $pricenow) {
+                    $error->setErrorState('danger', 'Stonk Price Mismatch, Please Try Again');
+                    $pages->get('home');
+                    return;
+                }
             }
 
             if ($this->request->getVar('operation') == "buy") {
@@ -111,7 +113,7 @@ class TX extends BaseController
                         $pages->get('home');
                     }
                 }
-            } else {
+            } else if ($this->request->getVar('operation') == "sell") {
                 $user_stonks = $users->get_user_stonks($username);
                 $user_has_stonks = false;
                 foreach ($user_stonks as $stonk_row) {
@@ -132,6 +134,9 @@ class TX extends BaseController
                     $error->setErrorState('danger', 'Insufficient Stonks');
                     $pages->get('home');
                 }
+            } else {
+                $error->setErrorState('danger', 'Unable to process transaction');
+                $pages->get('home');
             }
         } else {
             $error->setErrorState('danger', 'Not signed in');

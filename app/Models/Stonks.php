@@ -1,6 +1,8 @@
-<?php namespace App\Models;
+<?php
+namespace App\Models;
 
-class Stonks extends Database {
+class Stonks extends Database
+{
     //FETCH ALL STONK PROPERTIES
     public function get_stonk_properties()
     {

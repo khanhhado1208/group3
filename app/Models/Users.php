@@ -1,14 +1,19 @@
-<?php namespace App\Models;
+<?php
+namespace App\Models;
 
-class Users extends Database {
+class Users extends Database
+{
     protected $table = 'users';
     public $allowedFields = ['username', 'password'];
- 
-    public function addUser($username, $password){
-        $this->save([
-            'username' => $username,
-            'password'  => $password
-        ]);
+
+    public function addUser($username, $password)
+    {
+        $this->save(
+            [
+                'username' => $username,
+                'password' => $password
+            ]
+        );
     }
 
     //CHECK IF USER DATABASE ENTRY EXISTS
@@ -71,8 +76,8 @@ class Users extends Database {
             $query = $this->db->table('users')->select('user_id')->where('username', $username)->get();
             $id = $query->getRow()->user_id;
             $query = $this->db->table('transactions')->select('transactions.stonk_id, stonk_name')->selectSum('stonk_amount')
-            ->join('stonks', 'transactions.stonk_id = stonks.stonk_id', 'inner')->where('user_id', $id)->where('transactions.stonk_id > 1')
-            ->groupBy('stonk_id')->get();
+                ->join('stonks', 'transactions.stonk_id = stonks.stonk_id', 'inner')->where('user_id', $id)->where('transactions.stonk_id > 1')
+                ->groupBy('stonk_id')->get();
             $user_stonks = $query->getResult();
         } catch (\Throwable $th) {
             return [];
@@ -80,15 +85,16 @@ class Users extends Database {
         return $user_stonks;
     }
     //DELETE USER
-    function removeuser($username) {
-        try{     
+    function removeuser($username)
+    {
+        try {
             $query = $this->db->table('users')->select('user_id')->where('username', $username)->get();
             $id = $query->getRow()->user_id;
             $query = $this->db->table('transactions')->delete(['user_id' => $id]);
             $query = $this->db->table('users')->delete(['username' => $username]);
-        } catch(\Throwable $th) {     
+        } catch (\Throwable $th) {
             return false;
         }
-            return true;
+        return true;
     }
 }

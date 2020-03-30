@@ -1,7 +1,10 @@
 <?php namespace App\Controllers;
  
 use CodeIgniter\Controller;
-use App\Models\UsersModel;
+use App\Models\Users;
+use App\Models\Stonks;
+use App\Models\Transactions;
+use App\Models\Tables;
 use App\Controllers\Pages;
 use DateTime;
 use DateInterval;
@@ -10,19 +13,20 @@ class Account extends BaseController
 {
     //GET DYNAMIC DATA FOR VIEWS
     public function getDynamicData($page = '') {
-        $model = new UsersModel();
+        $users = new Users();
+        $stonks = new Stonks();
         $data = [];
 
         if($this->isLoggedIn()) {
             $username = $_SESSION['username'];
             $data['username'] = $username;
-            $history = $model->check_transaction_history($username);
+            $history = $users->check_transaction_history($username);
             $data['history'] = $history;
             $balance = $this->getBalance($username);
             $data['balance'] = $balance;
-            $userstonks = $model->get_user_stonks($username);
+            $userstonks = $users->get_user_stonks($username);
             $data['userstonks'] = $userstonks;
-            $stonkproperties = $model->get_stonk_properties();
+            $stonkproperties = $stonks->get_stonk_properties();
             $data['stonkproperties'] = $stonkproperties;
             $pricenow = $this->generatePriceData('now');
             $data['pricenow'] = $pricenow;
@@ -39,17 +43,17 @@ class Account extends BaseController
         return $data;
     } 
     public function generatePriceData($period){
-        $model = new UsersModel();
+        $stonks = new Stonks();
         if($period == 'lasthour') {
             $hourarr = [];
-            for ($i = 0; $i < count($model->get_stonk_properties()); $i++) {
+            for ($i = 0; $i < count($stonks->get_stonk_properties()); $i++) {
                 $date = new DateTime();
                 $pricearr = [];
                 for ($a = 0; $a < 60; $a++) {
                     mt_srand($date->format("dHi") * 3.14);
                     $gen = mt_rand(0, 10);
-                    $vol = $model->get_stonk_properties()[$i]->volatility;
-                    $base = $model->get_stonk_properties()[$i]->base;
+                    $vol = $stonks->get_stonk_properties()[$i]->volatility;
+                    $base = $stonks->get_stonk_properties()[$i]->base;
                     $change = 2 * $vol * $gen;
                     if($change > $vol) {
                         $change -= (2 * $vol);
@@ -63,14 +67,14 @@ class Account extends BaseController
             return $hourarr;
         } elseif ($period == 'lastday') {
             $dayarr = [];
-            for ($i = 0; $i < count($model->get_stonk_properties()); $i++) {
+            for ($i = 0; $i < count($stonks->get_stonk_properties()); $i++) {
                 $date = new DateTime();
                 $pricearr = [];
                 for ($a = 0; $a < 24; $a++) {
                     mt_srand($date->format("dHi") * 3.14);
                     $gen = mt_rand(0, 10);
-                    $vol = $model->get_stonk_properties()[$i]->volatility;
-                    $base = $model->get_stonk_properties()[$i]->base;
+                    $vol = $stonks->get_stonk_properties()[$i]->volatility;
+                    $base = $stonks->get_stonk_properties()[$i]->base;
                     $change = 2 * $vol * $gen;
                     if($change > $vol) {
                         $change -= (2 * $vol);
@@ -84,14 +88,14 @@ class Account extends BaseController
             return $dayarr;
         } elseif ($period == 'lastweek') {
             $weekarr = [];
-            for ($i = 0; $i < count($model->get_stonk_properties()); $i++) {
+            for ($i = 0; $i < count($stonks->get_stonk_properties()); $i++) {
                 $date = new DateTime();
                 $pricearr = [];
                 for ($a = 0; $a < 7; $a++) {
                     mt_srand($date->format("dHi") * 3.14);
                     $gen = mt_rand(0, 10);
-                    $vol = $model->get_stonk_properties()[$i]->volatility;
-                    $base = $model->get_stonk_properties()[$i]->base;
+                    $vol = $stonks->get_stonk_properties()[$i]->volatility;
+                    $base = $stonks->get_stonk_properties()[$i]->base;
                     $change = 2 * $vol * $gen;
                     if($change > $vol) {
                         $change -= (2 * $vol);
@@ -107,11 +111,11 @@ class Account extends BaseController
             $date = new DateTime();
             $date_now = $date->format("dHi");
             $pricearr = [];
-            for ($i = 0; $i < count($model->get_stonk_properties()); $i++) {
+            for ($i = 0; $i < count($stonks->get_stonk_properties()); $i++) {
                 mt_srand($date_now * 3.14);
                 $gen = mt_rand(0, 10);
-                $vol = $model->get_stonk_properties()[$i]->volatility;
-                $base = $model->get_stonk_properties()[$i]->base;
+                $vol = $stonks->get_stonk_properties()[$i]->volatility;
+                $base = $stonks->get_stonk_properties()[$i]->base;
                 $change = 2 * $vol * $gen;
                 if($change > $vol) {
                     $change -= (2 * $vol);
@@ -126,12 +130,12 @@ class Account extends BaseController
 
     //GET USER ACCOUNT BALANCE
     public function getBalance($username) {
-        $model = new UsersModel();
+        $users = new Users();
         //If username null, get balance for current session user
         if ($username == null){
             $username = $_SESSION['username'];
         }
-        return $model->check_balance($username);
+        return $users->check_balance($username);
     }
     public function getUsername() {
         return $_SESSION['username'];
@@ -161,12 +165,12 @@ class Account extends BaseController
     //TOP UP
     public function topup() {
         $pageController = new Pages;
-        $model = new UsersModel();
+        $transactions = new Transactions();
 
         if($this->isLoggedIn()) {
             $username = $_SESSION['username'];
             $amount = $this->request->getVar('amount');
-            $success = $model->money_transaction($username, $amount, "Deposit");
+            $success = $transactions->money_transaction($username, $amount, "Deposit");
             if ($success) {
                 $this->setErrorState('success', 'Account balance updated');
                 $pageController->get('home');
@@ -183,12 +187,13 @@ class Account extends BaseController
     //WITHDRAW
     public function withdraw() {
         $pageController = new Pages;
-        $model = new UsersModel();
+        $transactions = new Transactions();
+        $users = new Users();
 
         if($this->isLoggedIn()) {
             $username = $_SESSION['username'];
             $amount = $this->request->getVar('amount');
-            $current_funds = $model->check_balance($username);
+            $current_funds = $users->check_balance($username);
             if(!is_numeric($amount) || $amount < 0) {
                 $this->setErrorState('danger', 'Enter a valid amount');
                 $pageController->get('withdraw');
@@ -196,7 +201,7 @@ class Account extends BaseController
                 $this->setErrorState('danger', 'Insufficient funds');
                 $pageController->get('home');
             } else {
-                $success = $model->money_transaction($username, -$amount, "Withdrawal");
+                $success = $transactions->money_transaction($username, -$amount, "Withdrawal");
                 if ($success) {
                     $this->setErrorState('success', 'Account balance updated');
                     $pageController->get('home');
@@ -215,7 +220,8 @@ class Account extends BaseController
     //QUICK TRADE
     public function quicktrade() {
         $pageController = new Pages;
-        $model = new UsersModel();
+        $transactions = new Transactions();
+        $users = new Users();
 
         if($this->isLoggedIn()) {
             $username = $_SESSION['username'];
@@ -232,12 +238,12 @@ class Account extends BaseController
             }
 
             if ($this->request->getVar('operation') == "buy") {
-                $current_funds = $model->check_balance($username);
+                $current_funds = $users->check_balance($username);
                 if ($current_funds < $value) {
                     $this->setErrorState('danger', 'Insufficient funds');
                     $pageController->get('home');
                 } else {
-                    $success = $model->stonk_transaction($username, -$value, $stonkid, $amount, "Stonk Purchase");
+                    $success = $transactions->stonk_transaction($username, -$value, $stonkid, $amount, "Stonk Purchase");
                     if ($success) {
                         $this->setErrorState('success', 'Stonks Purchased');
                         $pageController->get('home');
@@ -247,7 +253,7 @@ class Account extends BaseController
                     }
                 }
             } else {
-                $user_stonks = $model->get_user_stonks($username);
+                $user_stonks = $users->get_user_stonks($username);
                 $user_has_stonks = false;
                 foreach ($user_stonks as $stonk_row) {
                     if ($stonk_row->stonk_id == $stonkid && $stonk_row->stonk_amount >= $amount) {
@@ -255,7 +261,7 @@ class Account extends BaseController
                     }
                 }
                 if ($user_has_stonks) {
-                    $success = $model->stonk_transaction($username, $value, $stonkid, -$amount, "Stonk Sold");
+                    $success = $transactions->stonk_transaction($username, $value, $stonkid, -$amount, "Stonk Sold");
                     if ($success) {
                         $this->setErrorState('success', 'Stonks Sold');
                         $pageController->get('home');
@@ -277,7 +283,6 @@ class Account extends BaseController
     //TRANSACTION HISTORY
     public function history() {
         $pageController = new Pages;
-        $model = new UsersModel();
 
         if($this->isLoggedIn()) {
             $pageController->get('history');
@@ -290,8 +295,8 @@ class Account extends BaseController
     //CREATE DATABASE TABLES
     public function setupdb(){
         $pageController = new Pages;
-        $model = new UsersModel();
-        $success = $model->initialize_database();
+        $tables = new Tables();
+        $success = $tables->initialize_database();
         if ($success){
             $this->setErrorState('success', 'Tables created');
             $pageController->get('home');
@@ -304,8 +309,8 @@ class Account extends BaseController
     //REMOVE DATABASE TABLES
     public function dropdb(){
         $pageController = new Pages;
-        $model = new UsersModel();
-        $success = $model->drop_db_tables();
+        $tables = new Tables();
+        $success = $tables->drop_db_tables();
         if ($success){
             $this->setErrorState('success', 'Tables removed');
             $pageController->get('home');
@@ -325,10 +330,11 @@ class Account extends BaseController
             'confirmpassword' => 'required|matches[password]',
         ]);
  
-        $model = new UsersModel();
+        $users = new Users();
+        $transactions = new Transactions();
  
         //CHECK IF USER EXIST
-        if ($model->user_exists($this->request->getVar('username'))) {
+        if ($users->user_exists($this->request->getVar('username'))) {
             $this->setErrorState('danger', 'User already exists');
             $pageController->get('register');
         } else {
@@ -341,12 +347,12 @@ class Account extends BaseController
             else
             { 
         
-                $model->save([
+                $users->save([
                     'username' => $this->request->getVar('username'),
                     'password'  => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT)
                 ]);
                 $this->setErrorState('success', 'New user created, please login');
-                $model->money_transaction($this->request->getVar('username'), 10, "Sign-Up Bonus");
+                $transactions->money_transaction($this->request->getVar('username'), 10, "Sign-Up Bonus");
                 $pageController->get('login');
             }
         }
@@ -371,8 +377,8 @@ class Account extends BaseController
             { 
                 $username = $this->request->getVar('username');
                 $password = $this->request->getVar('password');
-                $model = new UsersModel();
-                $success = $model->check_credentials($username, $password);
+                $users = new Users();
+                $success = $users->check_credentials($username, $password);
                 if ($success){
                     $this->setErrorState('success', 'Authentication successful');
                     $_SESSION['logged_in'] = true;
@@ -391,11 +397,11 @@ class Account extends BaseController
     //test account for demo/testing purposes
     public function demoAutoLogin(){
         $pageController = new Pages;
-        $model = new UsersModel;
-        if ($model->user_exists('demouser')){
+        $users = new Users;
+        if ($users->user_exists('demouser')){
             $this->setErrorState('success', 'Demouser logged in');
         } else{
-            $model->save([
+            $users->save([
                 'username' => 'demouser',
                 'password'  => password_hash('demouser', PASSWORD_DEFAULT)
             ]);
@@ -439,9 +445,9 @@ class Account extends BaseController
     public function deleteuser(){
         $username = $_SESSION['username']; 
         $pageController = new Pages;
-        $model = new UsersModel();
+        $users = new Users();
         if($this->isLoggedIn(true)){
-            $model->removeuser($username);
+            $users->removeuser($username);
             unset($_SESSION['logged_in']);
             unset($_SESSION['username']);
             $this->setErrorState('success', 'Your account has been succesfully deleted');

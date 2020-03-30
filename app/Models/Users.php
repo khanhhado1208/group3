@@ -2,8 +2,14 @@
 
 class Users extends Database {
     protected $table = 'users';
+    public $allowedFields = ['username', 'password'];
  
-    protected $allowedFields = ['username', 'password'];
+    public function addUser($username, $password){
+        $this->save([
+            'username' => $username,
+            'password'  => $password
+        ]);
+    }
 
     //CHECK IF USER DATABASE ENTRY EXISTS
     public function user_exists($username)

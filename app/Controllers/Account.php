@@ -347,10 +347,9 @@ class Account extends BaseController
             else
             { 
         
-                $users->save([
-                    'username' => $this->request->getVar('username'),
-                    'password'  => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT)
-                ]);
+                $username = $this->request->getVar('username');
+                $password = password_hash($this->request->getVar('password'), PASSWORD_DEFAULT);
+                $users->addUser($username, $password);
                 $this->setErrorState('success', 'New user created, please login');
                 $transactions->money_transaction($this->request->getVar('username'), 10, "Sign-Up Bonus");
                 $pageController->get('login');

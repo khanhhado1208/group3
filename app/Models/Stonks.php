@@ -4,15 +4,6 @@ class Stonks extends Database {
     //FETCH ALL STONK PROPERTIES
     public function get_stonk_properties()
     {
-        try {
-            $query = $this->db->query(
-                'SELECT * FROM stonks
-                INNER JOIN issuers ON stonks.issuer_id = issuers.issuer_id
-                WHERE stonk_id > 1'
-            );
-        } catch (\Throwable $th) {
-            return [];
-        }
-        return $query->getResult();
+        return $this->db->table('stonks')->select('*')->join('issuers', 'stonks.issuer_id = issuers.issuer_id', 'inner')->where('stonk_id > 1')->get()->getResult();
     }
 }

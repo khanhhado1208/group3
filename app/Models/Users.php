@@ -14,9 +14,7 @@ class Users extends Database {
     //CHECK IF USER DATABASE ENTRY EXISTS
     public function user_exists($username)
     {
-        $query = $this->db->query('SELECT 1 FROM users WHERE username="'.$username.'"');
-        $results = $query->getResult();
-
+        $results = $this->db->table('users')->select('1')->where('username', $username)->get()->getResult();
         if (count($results) > 0) {
             return true;
         } else {
@@ -26,7 +24,7 @@ class Users extends Database {
     //CHECK USER CREDENTIALS ON LOGIN
     public function check_credentials($username, $password)
     {
-        $query = $this->db->query('SELECT * FROM users WHERE (username="'.$username.'")');
+        $query = $this->db->table('users')->select('*')->where('username', $username)->get();
         if (count($query->getResult()) > 0) {
             $results = $query->getRow();
             if (password_verify($password, $results->password) == true) {
@@ -42,10 +40,10 @@ class Users extends Database {
     public function check_balance($username)
     {
         try {
-            $query = $this->db->query('SELECT (user_id) FROM users WHERE username="'.$username.'"');
+            $query = $this->db->table('users')->select('user_id')->where('username', $username)->get();
             $id = $query->getRow()->user_id;
 
-            $query = $this->db->query('SELECT SUM(tx_value) AS balance FROM transactions WHERE user_id = '.$id.'');
+            $query = $this->db->table('transactions')->selectSum('tx_value', 'balance')->where('user_id', $id)->get();
             $balance = $query->getRow()->balance;
         } catch (\Throwable $th) {
             return 0;
@@ -56,14 +54,10 @@ class Users extends Database {
     public function check_transaction_history($username)
     {
         try {
-            $query = $this->db->query('SELECT (user_id) FROM users WHERE username="'.$username.'"');
+            $query = $this->db->table('users')->select('user_id')->where('username', $username)->get();
             $id = $query->getRow()->user_id;
 
-            $query = $this->db->query(
-                'SELECT * FROM transactions 
-                INNER JOIN stonks ON transactions.stonk_id = stonks.stonk_id
-                WHERE user_id = '.$id.' ORDER BY tx_date ASC'
-            );
+            $query = $this->db->table('transactions')->select('*')->join('stonks', 'transactions.stonk_id = stonks.stonk_id', 'inner')->where('user_id', $id)->orderBy('tx_date', 'ASC')->get();
             $history = $query->getResult();
         } catch (\Throwable $th) {
             return [];
@@ -74,16 +68,11 @@ class Users extends Database {
     public function get_user_stonks($username)
     {
         try {
-            $query = $this->db->query('SELECT (user_id) FROM users WHERE username="'.$username.'"');
+            $query = $this->db->table('users')->select('user_id')->where('username', $username)->get();
             $id = $query->getRow()->user_id;
-
-            $query = $this->db->query(
-                'SELECT transactions.stonk_id, stonk_name, SUM(stonk_amount) AS stonk_amount
-                FROM transactions INNER JOIN stonks ON transactions.stonk_id = stonks.stonk_id
-                WHERE user_id = '.$id.' AND transactions.stonk_id > 1
-                GROUP BY stonk_id'
-            );
-
+            $query = $this->db->table('transactions')->select('transactions.stonk_id, stonk_name')->selectSum('stonk_amount')
+            ->join('stonks', 'transactions.stonk_id = stonks.stonk_id', 'inner')->where('user_id', $id)->where('transactions.stonk_id > 1')
+            ->groupBy('stonk_id')->get();
             $user_stonks = $query->getResult();
         } catch (\Throwable $th) {
             return [];
@@ -93,10 +82,10 @@ class Users extends Database {
     //DELETE USER
     function removeuser($username) {
         try{     
-            $query = $this->db->query('SELECT (user_id) FROM users WHERE username = "'.$username.'" ');
+            $query = $this->db->table('users')->select('user_id')->where('username', $username)->get();
             $id = $query->getRow()->user_id;
-            $query = $this->db->query('DELETE FROM transactions WHERE user_id = "'.$id.'" ');
-            $query = $this->db->query('DELETE FROM users WHERE username = "'.$username.'" ');
+            $query = $this->db->table('transactions')->delete(['user_id' => $id]);
+            $query = $this->db->table('users')->delete(['username' => $username]);
         } catch(\Throwable $th) {     
             return false;
         }

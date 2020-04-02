@@ -1,0 +1,12 @@
+{
+    "announcements": [
+        {
+            "headline": "Welcome!",
+            "story": "Hello fellow traders! Welcome to our humble stonk trading hub!"
+        },
+        {
+            "headline": "Did you know...",
+            "story": "...that the best day to start trading is yesterday, and the second best is today?"
+        }
+    ]
+}

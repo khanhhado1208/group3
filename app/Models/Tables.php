@@ -71,22 +71,29 @@ class Tables extends Database
                 ("", 1, "", false)'
             );
 
-            //Add default issuer and a few stonks
+            //Add default issuers and a few stonks
             $default_issuer_names = ['ACME Company LTD', 'Worldwide Trading Co', 'United Refineries'];
+            $default_stonks = ['ACM', 'WTC', 'UNR'];
             $default_issuer_desc = 'A vibrant and well-respected company in their field.';
+            $default_stonk_desc = 'Good choice for beginner traders.';
 
-            $query = $this->db->query(
-                'INSERT INTO issuers
-                (issuer_id, issuer_name, issuer_desc, sponsored) VALUES
-                (2, "' . $default_issuer_names[array_rand($default_issuer_names)] . '", "' . $default_issuer_desc . '", false)'
-            );
-
-            for ($i = rand(1, 5); $i > 0; $i--) {
+            for ($i = 0; $i < count($default_issuer_names); $i++) {
                 $query = $this->db->query(
-                    'INSERT INTO stonks 
-                    (stonk_name, issuer_id, stonk_desc, stonk_tradable, base, volatility) VALUES
-                    ("Stock No. ' . $i . '", 2, "Stock", true, ' . rand(1, 100) . ', ' . rand(1, 100) . ')'
+                    'INSERT INTO issuers
+                    (issuer_name, issuer_desc, sponsored) VALUES
+                    ("' . $default_issuer_names[$i] . '", "' . $default_issuer_desc . '", false)'
                 );
+
+                $query = $this->db->query('SELECT LAST_INSERT_ID() AS issuer_id');
+                $issuer_id = $query->getRow()->issuer_id;
+
+                for ($j = rand(1, 5); $j > 0; $j--) {
+                    $query = $this->db->query(
+                        'INSERT INTO stonks 
+                        (stonk_name, issuer_id, stonk_desc, stonk_tradable, base, volatility) VALUES
+                        ("' . $default_stonks[$i] . ' No. ' . $j . '", ' . $issuer_id . ', "' . $default_stonk_desc . '", true, ' . rand(1, 100) . ', ' . rand(1, 100) . ')'
+                    );
+                }
             }
         } catch (\Throwable $th) {
             return false;

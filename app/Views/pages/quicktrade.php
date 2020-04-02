@@ -53,7 +53,13 @@
 
 <script>
     //INITIALIZE AND PARSE DATA FROM PHP
-    let userBalance = <?php echo $balance ?>;
+    <?php
+    if(is_numeric($balance)) {
+        echo "let userBalance = ".$balance.";";
+    } else {
+        echo "let userBalance = 0;";
+    }
+    ?>
 
     let userStonksJSON = <?php echo json_encode($userstonks) ?>;
     let userStonks = [];

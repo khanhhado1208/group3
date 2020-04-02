@@ -125,12 +125,7 @@ class Account extends BaseController
         if ($users->user_exists('demouser')) {
             $error->setErrorState('success', 'Demouser logged in');
         } else {
-            $users->save(
-                [
-                    'username' => 'demouser',
-                    'password' => password_hash('demouser', PASSWORD_DEFAULT)
-                ]
-            );
+            $users->addUser('demouser', password_hash('demouser', PASSWORD_DEFAULT));
             $error->setErrorState('success', 'Demouser registered and logged in');
         }
 

@@ -4,14 +4,15 @@ namespace App\Models;
 class Users extends Database
 {
     protected $table = 'users';
-    public $allowedFields = ['username', 'password'];
+    public $allowedFields = ['username', 'password', 'disabled'];
 
     public function addUser($username, $password)
     {
         $this->save(
             [
                 'username' => $username,
-                'password' => $password
+                'password' => $password,
+                'disabled' => false
             ]
         );
     }
@@ -32,7 +33,7 @@ class Users extends Database
         $query = $this->db->table('users')->select('*')->where('username', $username)->get();
         if (count($query->getResult()) > 0) {
             $results = $query->getRow();
-            if (password_verify($password, $results->password) == true) {
+            if (password_verify($password, $results->password) == true && $results->disabled == false) {
                 return true;
             } else {
                 return false;

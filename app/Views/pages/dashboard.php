@@ -15,13 +15,11 @@
         <div class="container">
             <div class="row">
                 <div class="col card">
-                    <h3>Welcome, <?= $username ?>! </h3>
+                    <h4>Welcome, <?= $username ?>! </h4>
                     <h2>Balance: <?= $balance ?> STONK$ </h2>
-                    <div class="row">
-                        <a href='<?php echo base_url('/wallet') ?>'>
+                    <a href='<?php echo base_url('/wallet') ?>'>
                             <button class="btn btn-light">Manage my wallet</button>
-                        </a>
-                    </div>
+                    </a>
                 </div>
                 <div class="col card">
                     <?php
@@ -29,8 +27,8 @@
                     echo '<p class="h4">No recent activity.</p><br>
                         <a href="'.base_url('/exchange').'">Start trading today!</a>';
                 } else {
+                    echo '<p class="h4">Recent activity</p><br>';
                     echo "<table class=\"table\">";
-                    echo "<thead><th colspan=\"3\">Recent Activity<th></thead>";
                     $max_displayed_rows = 3;
                     foreach (array_reverse($history) as $row) {
                         echo "</td><td>";

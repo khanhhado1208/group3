@@ -52,7 +52,7 @@ echo '<div class="tab-pane fade show active" id="v-pills-'.$stonkproperties[0]->
 <p class=h6><a href="#">'.$stonkproperties[0]->issuer_name.'</a></p>
 <p>Information about this stonk: '.$stonkproperties[0]->stonk_desc.'</p>
 <p>Current value: '.$pricenow[$stonkproperties[0]->stonk_id].'stonk$</p>
-<a href="'.base_url('/quicktrade').'"><button class="btn btn-success">Buy/Sell</button></a>
+<a href="'.base_url('/quicktrade//'.$stonkproperties[0]->stonk_id.'').'"><button class="btn btn-success">Buy/Sell</button></a>
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
     <a class="nav-link disabled" href="#">Price graph</a>
@@ -128,7 +128,7 @@ for ($i = 1; $i < count($stonkproperties); $i++) {
     <p class=h6><a href="#">'.$stonkproperties[$i]->issuer_name.'</a></p>
     <p>Information about this stonk: '.$stonkproperties[$i]->stonk_desc.'</p>
     <p>Current value '.$pricenow[$stonkproperties[$i]->stonk_id].'stonk$</p>
-    <a href="'.base_url('/quicktrade').'"><button class="btn btn-success">Buy/Sell</button></a>
+    <a href="'.base_url('/quicktrade//'.$stonkproperties[$i]->stonk_id.'').'"><button class="btn btn-success">Buy/Sell</button></a>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
     <a class="nav-link disabled" href="#">Price graph</a>

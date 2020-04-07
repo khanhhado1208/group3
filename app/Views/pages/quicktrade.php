@@ -15,7 +15,7 @@
 
                             <?php
                             foreach ($stonkproperties as $stonk) {
-                                echo '<button class="dropdown-item" onclick="selectStonk('.$stonk->stonk_id.',\''.$stonk->stonk_name.'\')" type="button">'.$stonk->stonk_name.'</button>';
+                                echo '<button class="dropdown-item" onclick="selectStonk('.$stonk->stonk_id.')" type="button">'.$stonk->stonk_name.'</button>';
                             }
                             ?>
 
@@ -52,26 +52,6 @@
 </div>
 
 <script>
-    //INITIALIZE AND PARSE DATA FROM PHP
-    let userBalance = <?php
-        if(is_numeric($balance)) {
-            echo $balance;
-        } else {
-            echo 0;
-        }?>;
-
-    let userStonksJSON = <?php echo json_encode($userstonks) ?>;
-    let userStonks = [];
-    for (let i = 0; i < userStonksJSON.length; i++) {
-        userStonks[userStonksJSON[i].stonk_id] = parseInt(userStonksJSON[i].stonk_amount);
-    }
-
-    let PriceArrayJSON = <?php echo json_encode($pricenow) ?>;
-    let PriceArray = [];
-    Object.keys(PriceArrayJSON).forEach(key => {
-        PriceArray[key] = PriceArrayJSON[key];
-    });
-
     //ELEMENT VARIABLES
     let stonkidElement = document.getElementById("stonkid");
     let operationElement = document.getElementById("operation");
@@ -90,11 +70,49 @@
     let stonkAmount;
     let maxAmount;
 
+    //INITIALIZE AND PARSE DATA FROM PHP
+    let userBalance = <?php
+        if(is_numeric($balance)) {
+            echo $balance;
+        } else {
+            echo 0;
+        }?>;
+
+    let userStonksJSON = <?php echo json_encode($userstonks) ?>;
+    let userStonks = [];
+    for (let i = 0; i < userStonksJSON.length; i++) {
+        userStonks[userStonksJSON[i].stonk_id] = parseInt(userStonksJSON[i].stonk_amount);
+    }
+
+    let stonksJSON = <?php echo json_encode($stonkproperties) ?>;
+    let stonkNames = [];
+    for (let i = 0; i < stonksJSON.length; i++) {
+        stonkNames[stonksJSON[i].stonk_id] = stonksJSON[i].stonk_name;
+    }
+
+    let stonkPricesJSON = <?php echo json_encode($pricenow) ?>;
+    let stonkPrices = [];
+    Object.keys(stonkPricesJSON).forEach(key => {
+        stonkPrices[key] = stonkPricesJSON[key];
+    });
+
+    //CHECK URL STRING FOR DEFAULT SELECTION
+    let url = window.location.href;
+    let segment = url.substr(url.lastIndexOf('/') + 1);
+    if (segment != "quicktrade") {
+        selectStonk(parseInt(segment));
+    }
+
     //STONK DROPDOWN SELECTION
-    function selectStonk(index, name) {
-        stonkPrice = PriceArray[index];
+    function selectStonk(index) {
+        if (!(index in stonkPrices)) {
+            hideInputs();
+            return;
+        }
+
+        stonkPrice = stonkPrices[index];
         stonkidElement.value = index;
-        stonkElement.innerHTML = name;
+        stonkElement.innerHTML = stonkNames[index];
         hideInputs();
 
         if (userStonks[index] > 0) {

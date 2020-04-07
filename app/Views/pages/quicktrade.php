@@ -90,11 +90,7 @@
         stonkNames[stonksJSON[i].stonk_id] = stonksJSON[i].stonk_name;
     }
 
-    let stonkPricesJSON = <?php echo json_encode($pricenow) ?>;
-    let stonkPrices = [];
-    Object.keys(stonkPricesJSON).forEach(key => {
-        stonkPrices[key] = stonkPricesJSON[key];
-    });
+    let stonkPrices = <?php echo json_encode($pricenow) ?>;
 
     //CHECK URL STRING FOR DEFAULT SELECTION
     let url = window.location.href;

@@ -15,7 +15,7 @@
 
                             <?php
                             foreach ($stonkproperties as $stonk) {
-                                echo '<button class="dropdown-item" onclick="selectStonk('.$stonk->stonk_id.',\''.$stonk->stonk_name.'\')" type="button">'.$stonk->stonk_name.'</button>';
+                                echo '<button class="dropdown-item" onclick="selectStonk('.$stonk->stonk_id.')" type="button">'.$stonk->stonk_name.'</button>';
                             }
                             ?>
 
@@ -32,17 +32,17 @@
                         </div>
                     </div>
 
-                    <input type="number" min="1" name="amount" class="form-control" disabled hidden id="amount" placeholder="Stonk amount" oninput="updateValues('amount')" onkeyup="validateAmount()">
-                    <input type="number" min="1" name="value" class="form-control" disabled hidden id="value" placeholder="Stonk value" oninput="updateValues('value')" onkeyup="validateValue()">
-                    <button type="button" class="btn btn-yellow" disabled hidden onclick="setAmountFactor(0.5)">0.5x</button>
-                    <button type="button" class="btn btn-yellow" disabled hidden onclick="setAmountFactor(2)">2x</button>
-                    <button type="button" class="btn btn-yellow" disabled hidden onclick="setAmountFactor(10)">10x</button>
-                    <button type="button" class="btn btn-yellow" disabled hidden onclick="setAmountFactor('max')">MAX</button>
+                    <input type="number" min="1" name="amount" class="form-control" hidden id="amount" placeholder="Stonk amount" oninput="calculatePrice()">
+                    <input type="number" min="1" name="value" class="form-control" hidden id="value" placeholder="Stonk value" oninput="calculateAmount()">
+                    <button type="button" class="btn btn-yellow" hidden onclick="setAmountFactor(0.5)">0.5x</button>
+                    <button type="button" class="btn btn-yellow" hidden onclick="setAmountFactor(2)">2x</button>
+                    <button type="button" class="btn btn-yellow" hidden onclick="setAmountFactor(10)">10x</button>
+                    <button type="button" class="btn btn-yellow" hidden onclick="setAmountFactor('max')">MAX</button>
                     <br>
                     <input type="hidden" name="stonkid" id="stonkid">
                     <input type="hidden" name="operation" id="operation">
 
-                    <button type="submit" id="send_form" hidden disabled class="btn btn-success">Authorize transaction</button>
+                    <button type="submit" id="send_form" hidden class="btn btn-success">Authorize transaction</button>
                 </div>
             </form>
         </div>
@@ -52,26 +52,6 @@
 </div>
 
 <script>
-    //INITIALIZE AND PARSE DATA FROM PHP
-    <?php
-    if(is_numeric($balance)) {
-        echo "let userBalance = ".$balance.";";
-    } else {
-        echo "let userBalance = 0;";
-    }
-    ?>
-
-    let userStonksJSON = <?php echo json_encode($userstonks) ?>;
-    let userStonks = [];
-    for (let i = 0; i < userStonksJSON.length; i++) {
-        userStonks[userStonksJSON[i].stonk_id] = parseInt(userStonksJSON[i].stonk_amount);
-    }
-
-    let PriceArrayJSON = <?php echo json_encode($pricenow) ?>;
-    let PriceArray = [];
-    Object.keys(PriceArrayJSON).forEach(key => {
-        PriceArray[key] = PriceArrayJSON[key];
-    });
     //ELEMENT VARIABLES
     let stonkidElement = document.getElementById("stonkid");
     let operationElement = document.getElementById("operation");
@@ -82,6 +62,7 @@
     let sellElement = document.getElementById("sell");
     let amountElement = document.getElementById("amount");
     let valueElement = document.getElementById("value");
+    let factorElements = document.getElementsByClassName("btn btn-yellow");
     let sendElement = document.getElementById("send_form");
 
     //TRANSACTION VARIABLES
@@ -89,51 +70,70 @@
     let stonkAmount;
     let maxAmount;
 
-    //STONK DROPDOWN SELECTION
-    function selectStonk(index, name) {
-        stonkPrice = PriceArray[index];
-        stonkidElement.value = index;
-        stonkElement.innerHTML = name;
+    //INITIALIZE AND PARSE DATA FROM PHP
+    let userBalance = <?php
+        if(is_numeric($balance)) {
+            echo $balance;
+        } else {
+            echo 0;
+        }?>;
 
-        amountElement.hidden = false;
-        valueElement.hidden = false;
-        sendElement.hidden = false;
-        operationddElement.hidden = true;
+    let userStonksJSON = <?php echo json_encode($userstonks) ?>;
+    let userStonks = [];
+    for (let i = 0; i < userStonksJSON.length; i++) {
+        userStonks[userStonksJSON[i].stonk_id] = parseInt(userStonksJSON[i].stonk_amount);
+    }
+
+    let stonksJSON = <?php echo json_encode($stonkproperties) ?>;
+    let stonkNames = [];
+    for (let i = 0; i < stonksJSON.length; i++) {
+        stonkNames[stonksJSON[i].stonk_id] = stonksJSON[i].stonk_name;
+    }
+
+    let stonkPrices = <?php echo json_encode($pricenow) ?>;
+
+    //CHECK URL STRING FOR DEFAULT SELECTION
+    let url = window.location.href;
+    let segment = url.substr(url.lastIndexOf('/') + 1);
+    if (segment != "quicktrade") {
+        selectStonk(parseInt(segment));
+    }
+
+    //STONK DROPDOWN SELECTION
+    function selectStonk(index) {
+        if (!(index in stonkPrices)) {
+            hideInputs();
+            return;
+        }
+
+        stonkPrice = stonkPrices[index];
+        stonkidElement.value = index;
+        stonkElement.innerHTML = stonkNames[index];
+        hideInputs();
 
         if (userStonks[index] > 0) {
             stonkText.innerHTML = "You currently have " + userStonks[index] + " of this stonk in your wallet.";
             sellElement.disabled = false;
-            operationddElement.hidden = false;
+            showInputs();
+            selectOperation('sell');
         } else {
             stonkText.innerHTML = "You don't have any of this stonk in your wallet yet.";
             sellElement.disabled = true;
         }
 
-        if (userBalance <= 0) {
-            stonkText.innerHTML += " Current balance does not permit stonk purchases.";
+        if (userBalance < stonkPrice) {
+            stonkText.innerHTML += " Not enough funds to acquire at current price of " + stonkPrice + " per stonk.";
             buyElement.disabled = true;
         } else {
             buyElement.disabled = false;
-            operationddElement.hidden = false;
             selectOperation('buy');
+            showInputs();
         }
 
-        let element = document.getElementsByClassName("btn btn-yellow");
-        for (let i = 0; i < element.length; i++) {
-            element[i].disabled = false;
-            element[i].hidden = false;
-        }
     }
 
     //BUY OR SELL DROPDOWN SELECTION
     function selectOperation(type) {
-        if (userStonks[stonkidElement.value] > 0) {
-            sellElement.disabled = false;
-        } else {
-            sellElement.disabled = true;
-            buyElement.checked = true;
-        }
-
         if (type == 'buy') {
             maxAmount = Math.floor(userBalance / stonkPrice);
             operationddElement.innerHTML = "Buy";
@@ -142,49 +142,36 @@
             operationddElement.innerHTML = "Sell";
         }
 
-        if (maxAmount > 0) {
-            sendElement.disabled = false;
-            amountElement.disabled = false;
-            valueElement.disabled = false;
+        amountElement.value = 1;
+        amountElement.max = maxAmount;
 
-            amountElement.value = 1;
-            amountElement.max = maxAmount;
-
-            valueElement.value = stonkPrice;
-            valueElement.min = stonkPrice;
-            valueElement.max = maxAmount * stonkPrice;
-            valueElement.step = stonkPrice;
-        } else {
-            sendElement.disabled = true;
-            amountElement.disabled = true;
-            valueElement.disabled = true;
-            buyElement.disabled = true;
-            if (type == 'buy') {
-                operationddElement.innerHTML = "...";
-                stonkText.innerHTML += " Not enough funds to acquire at current price of " + stonkPrice + " per stonk.";
-            }
-        }
+        valueElement.value = stonkPrice;
+        valueElement.min = stonkPrice;
+        valueElement.max = maxAmount * stonkPrice;
+        valueElement.step = stonkPrice;
 
         operationElement.value = type;
     }
 
-    //ONINPUT VALUE UPDATER AND CALCULATORS
-    function updateValues(caller) {
-        if (caller == 'amount') {
-            calculatePrice();
-        } else if (caller == 'value') {
-            calculateAmount();
+    //ELEMENT VISIBILITY FUNCTIONS
+    function hideInputs() {
+        operationddElement.hidden = true;
+        amountElement.hidden = true;
+        valueElement.hidden = true;
+        for (let i = 0; i < factorElements.length; i++) {
+            factorElements[i].hidden = true;
         }
+        sendElement.hidden = true;
     }
 
-    function calculatePrice() {
-        stonkAmount = amountElement.value;
-        valueElement.value = stonkPrice * stonkAmount;
-    }
-
-    function calculateAmount() {
-        stonkAmount = Math.floor(valueElement.value / stonkPrice);
-        amountElement.value = stonkAmount;
+    function showInputs() {
+        operationddElement.hidden = false;
+        amountElement.hidden = false;
+        valueElement.hidden = false;
+        for (let i = 0; i < factorElements.length; i++) {
+            factorElements[i].hidden = false;
+        }
+        sendElement.hidden = false;
     }
 
     //FACTOR INCREASE AND DECREASE FUNCTION
@@ -201,22 +188,24 @@
         calculatePrice();
     }
 
-    //INPUT VALIDATORS
-    function validateAmount() {
-        if (amountElement.value > maxAmount) {
-            valueElement.value = maxAmount * stonkPrice;
-            amountElement.value = maxAmount;
-        } else if (amountElement.value < 0) {
-            valueElement.value = stonkPrice;
-            amountElement.value = 1;
-        }
+    //INPUT CALCULATORS AND VALIDATORS
+    function calculatePrice() {
+        validateInput();
+        stonkAmount = amountElement.value;
+        valueElement.value = stonkPrice * stonkAmount;
     }
 
-    function validateValue() {
-        if (valueElement.value > maxAmount * stonkPrice) {
+    function calculateAmount() {
+        validateInput();
+        stonkAmount = Math.floor(valueElement.value / stonkPrice);
+        amountElement.value = stonkAmount;
+    }
+
+    function validateInput() {
+        if (amountElement.value > maxAmount || valueElement.value > maxAmount * stonkPrice) {
             valueElement.value = maxAmount * stonkPrice;
             amountElement.value = maxAmount;
-        } else if (valueElement.value < 0) {
+        } else if (amountElement.value < 0 || valueElement.value < 0) {
             valueElement.value = stonkPrice;
             amountElement.value = 1;
         }

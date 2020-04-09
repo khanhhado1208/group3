@@ -163,4 +163,17 @@ class Account extends BaseController
             $pages->get('login');
         }
     }
+
+    public function deleteuserinfo() {
+        $pages = new Pages();
+        $error = new Error();
+        $error->setErrorState('danger', 'Feature not implemented');
+        $pages->get('profile');
+    }
+    public function disableaccount() {
+        $pages = new Pages();
+        $error = new Error();
+        $error->setErrorState('danger', 'Feature not implemented');
+        $pages->get('profile');
+    }
 }

@@ -8,16 +8,21 @@
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <?php
       foreach ($navItems as $navLink => $navItem){
-        echo '<li class="nav-item active">';
+        echo '<li class="nav-item">';
         echo '<a class="nav-link" href="'.base_url("/".$navLink).'">'.$navItem.'</a>';
         echo '</li>';
       }
-      if($balance > 0){
+      if($balance >= 0){
         echo '<li class="nav-item">';
-        echo '<a class="nav-link" href="'.base_url("/wallet").'">Balance: '.$balance.'</a>';
+        echo '<a class="nav-link text-success" href="'.base_url("/wallet").'">Balance: '.$balance.'</a>';
+        echo '</li>';
+        echo '<li class="nav-item">';
+        echo '<form action="'.base_url("/account/logout").'" method="post" accept-charset="utf-8">';
+        echo '<a class="nav-link" href="#" onclick="this.parentNode.submit()">Log out</a>';
+        echo '</form>';
         echo '</li>';
       }
-      ?>
+      ?>        
         </ul>
     </div>
 </nav>

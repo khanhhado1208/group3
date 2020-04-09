@@ -40,7 +40,7 @@ class Pages extends BaseController
             $data = $this->getData($page);
             echo view('pages/' . $page, $data);
         } else {
-            if ($page == 'register' || $page == 'login' || $page == 'createdb') {
+            if ($page == 'register' || $page == 'login' || $page == 'admin') {
                 echo view('pages/' . $page);
             } else {
                 echo view('pages/home');
@@ -68,13 +68,13 @@ class Pages extends BaseController
         if ($account->isLoggedIn()) {
             $balance = $account->getBalance(null) . ' Stonk$';
             $navItems = [
-                'dashboard' => 'Dashboard', 'exchange' => 'Exchange', 'quicktrade' => 'Quick trade', 'topup' => 'Top up', 'withdraw' => 'Withdraw',
+                'dashboard' => 'Dashboard', 'exchange' => 'Stonk exchange', 'support' => 'Support',
                 'profile' => 'My account'
             ];
             $data = ['navItems' => $navItems, 'balance' => $balance];
         } else {
             $navItems = ['home' => 'Home', 'login' => 'Login', 'register' => 'Register'];
-            $data = ['navItems' => $navItems, 'balance' => '0'];
+            $data = ['navItems' => $navItems, 'balance' => '-1'];
         }
         echo view('templates/nav', $data);
     }

@@ -3,35 +3,29 @@
     <?= \Config\Services::validation()->listErrors(); ?>
 
         <div class="row">
-            <div class="col-md-9">
-                <form action="<?php echo base_url('pages/get/history') ?>" method="post" accept-charset="utf-8">
-                    <div class="form-group">
-                        <button type="submit" id="send_form" class="btn btn-success">Transaction History</button>
-                    </div>
-                </form>
-                <form action="<?php echo base_url('/account/logout') ?>" method="post" accept-charset="utf-8">
-                    <div class="form-group">
-                        <button type="submit" id="send_form" class="btn btn-success">Logout</button>
-                    </div>
-                </form>
-                <a href="<?php echo base_url('/wallet') ?>">
-                    <button class="btn btn-success">Wallet</button>
-                </a>
-                <br>
-                <br>
-                <a href="<?php echo base_url('/changepassword') ?>">
-                    <button class="btn btn-success">Change your password</button>
-                </a>
-
-                <form action="<?php echo base_url('/account/deleteuser') ?>" method="post" accept-charset="utf-8">
-                    <br>
-                    <a>
-                        <button class="btn btn-danger">Delete account</button>
-                    </a>
-                </form>
-
+            <div class="col-md-12">
+            <div class="row">
+                <div class="col card">
+                    <p class="h4">Security</p>
+                    <a href="<?php echo base_url('changepassword') ?>">Change password</a>
+                </div>
+                <div class="col card">
+                    <p class="h4">Activity</p>
+                    <a href="<?php echo base_url('history') ?>">Transaction history</a>
+                    <a href="<?php echo base_url('support') ?>">Wallet</a>
+                    <a href="<?php echo base_url('support') ?>">Submitted tickets</a>
+                </div>
+                <div class="col card">
+                    <p class="h4">Privacy</p>
+                    <a href="<?php echo base_url('privacypolicy') ?>">Privacy policy</a>
+                    <a href="<?php echo base_url('unregister') ?>">Manage my data</a>
+                </div>
+                <div class="col card">
+                    <p class="h4">Preferences</p>
+                    <a href="<?php echo base_url('unregister') ?>">Disable account</a>
+                    <a href="<?php echo base_url('unregister') ?>">Delete account</a>
+                </div>
             </div>
-
+            </div>
         </div>
-
 </div>

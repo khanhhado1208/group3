@@ -101,6 +101,8 @@ class Pages extends BaseController
             $data['stonkproperties'] = $stonkproperties;
             $pricenow = $prices->generatePriceData('now');
             $data['pricenow'] = $pricenow;
+            $avatar = $users->getavatar($username);
+            $data['avatar'] = $avatar;
             if ($page == 'exchange') {
                 $hourlydata = $prices->generatePriceData('lasthour');
                 $dailydata = $prices->generatePriceData('lastday');

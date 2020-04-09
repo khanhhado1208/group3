@@ -22,6 +22,7 @@
                 </div>
                 <div class="col card">
                     <p class="h4">Preferences</p>
+                    <a href="<?php echo base_url('avatar') ?>">Choose avatar</a>
                     <a href="<?php echo base_url('unregister') ?>">Disable account</a>
                     <a href="<?php echo base_url('unregister') ?>">Delete account</a>
                 </div>

@@ -15,7 +15,7 @@
         <div class="container">
             <div class="row">
                 <div class="col card">
-                <img class="card-img-top" height="200px" width="100px" src="<?php echo base_url('/favicon.ico') ?>" alt="User avatar">
+                <img class="card-img-top" height="200px" width="100px" src="<?php echo base_url($avatar) ?>" alt="User avatar">
                 <div class="card-body">
                     <h4 class="card-title"><?= $username ?>'s dashboard</h4>
                     <p class="card-text h5">Balance: <?= $balance ?> Stonk$ </p>

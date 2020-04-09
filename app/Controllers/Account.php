@@ -143,6 +143,27 @@ class Account extends BaseController
         $error->setErrorState('success', 'Logged out');
         $pages->get('home');
     }
+    //Select user avatar
+    public function avatar()
+    {
+        $error = new Error();
+        $pages = new Pages();
+        $users = new Users();
+        if ($this->isLoggedIn()) {
+            $file = $this->request->getVar('file');
+            $success = $users->setavatar($_SESSION['username'] ,$file);
+            if ($success) {
+                $error->setErrorState('success', 'Avatar changed');
+                $pages->get('dashboard');
+            } else {
+                $error->setErrorState('danger', 'Unable to change avatar');
+                $pages->get('dashboard');
+            }
+        } else {
+            $error->setErrorState('danger', 'Not signed in');
+            $pages->get('home');
+        }
+    }
     //Delete user
     public function deleteuser()
     {

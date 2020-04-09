@@ -98,4 +98,28 @@ class Users extends Database
         }
         return true;
     }
+    //DELETE USER ACTIVITY
+    function deleteinfo($username)
+    {
+        try {
+            $query = $this->db->table('users')->select('user_id')->where('username', $username)->get();
+            $id = $query->getRow()->user_id;
+            $query = $this->db->table('transactions')->delete(['user_id' => $id]);
+        } catch (\Throwable $th) {
+            return false;
+        }
+        return true;
+    }
+    //DISABLE ACCOUNT
+    function disable($username)
+    {
+        try {
+            $query = $this->db->table('users')->select('user_id')->where('username', $username)->get();
+            $id = $query->getRow()->user_id;
+            $query = $this->db->table('users')->set('disabled', true)->where('user_id', $id)->update();
+        } catch (\Throwable $th) {
+            return false;
+        }
+        return true;
+    }
 }

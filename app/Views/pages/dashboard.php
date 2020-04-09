@@ -48,12 +48,11 @@
                         }
                     }
                     echo "</table>";
+                    echo '<a class="card-text" href="'.base_url('/history').'">';
+                    echo '<small class="text-muted">Show full transaction history</small>';
+                    echo '</a>';
                 }
-                
             ?>
-                <a class="card-text" href='<?php echo base_url('/history') ?>'>
-                    <small class="text-muted">Show full transaction history</small>
-                </a>
                 </div></div>
                 <div class="col card">
                 <div class="card-body">

@@ -146,11 +146,11 @@ class Account extends BaseController
     //Delete user
     public function deleteuser()
     {
-        $username = $_SESSION['username'];
         $pages = new Pages();
         $error = new Error();
         $users = new Users();
         if ($this->isLoggedIn(true)) {
+            $username = $_SESSION['username'];
             $users->removeuser($username);
             unset($_SESSION['logged_in']);
             unset($_SESSION['username']);
@@ -163,17 +163,40 @@ class Account extends BaseController
             $pages->get('login');
         }
     }
-
+    //Delete user info
     public function deleteuserinfo() {
         $pages = new Pages();
         $error = new Error();
-        $error->setErrorState('danger', 'Feature not implemented');
-        $pages->get('profile');
+        $users = new Users();
+        if ($this->isLoggedIn(true)) {
+            $username = $_SESSION['username'];
+            $users->deleteinfo($username);
+            $error->setErrorState('success', 'Your activity has been deleted');
+            $pages->get('home');
+        } else {
+            $error->setErrorState('danger', 'Could not authenticate');
+            unset($_SESSION['logged_in']);
+            unset($_SESSION['username']);
+            $pages->get('login');
+        }
     }
+    //Disable account
     public function disableaccount() {
         $pages = new Pages();
         $error = new Error();
-        $error->setErrorState('danger', 'Feature not implemented');
-        $pages->get('profile');
+        $users = new Users();
+        if ($this->isLoggedIn(true)) {
+            $username = $_SESSION['username'];
+            $users->disable($username);
+            unset($_SESSION['logged_in']);
+            unset($_SESSION['username']);
+            $error->setErrorState('success', 'Your account has been disabled');
+            $pages->get('home');
+        } else {
+            $error->setErrorState('danger', 'Could not authenticate');
+            unset($_SESSION['logged_in']);
+            unset($_SESSION['username']);
+            $pages->get('login');
+        }
     }
 }

@@ -12,7 +12,7 @@
                 <div class="col card">
                     <p class="h4">Activity</p>
                     <a href="<?php echo base_url('history') ?>">Transaction history</a>
-                    <a href="<?php echo base_url('support') ?>">Wallet</a>
+                    <a href="<?php echo base_url('wallet') ?>">Wallet</a>
                     <a href="<?php echo base_url('support') ?>">Submitted tickets</a>
                 </div>
                 <div class="col card">

@@ -15,22 +15,24 @@
         <div class="container">
             <div class="row">
                 <div class="col card">
-                    <h3>Welcome, <?= $username ?>! </h3>
-                    <h2>Balance: <?= $balance ?> STONK$ </h2>
-                    <div class="row">
-                        <a href='<?php echo base_url('/wallet') ?>'>
-                            <button class="btn btn-light">Manage my wallet</button>
-                        </a>
-                    </div>
+                <img class="card-img-top" height="200px" width="100px" src="<?php echo base_url('/favicon.ico') ?>" alt="User avatar">
+                <div class="card-body">
+                    <h4 class="card-title"><?= $username ?>'s dashboard</h4>
+                    <p class="card-text h5">Balance: <?= $balance ?> Stonk$ </p>
+                    <a class="card-text" href='<?php echo base_url('/wallet') ?>'>
+                    <small class="text-muted">Go to my wallet</small>
+                    </a>
+                </div>
                 </div>
                 <div class="col card">
+                <div class="card-body">
                     <?php
                 if (count($history) == 0) {
-                    echo '<p class="h4">No recent activity.</p><br>
+                    echo '<h4 class="card-title">No recent activity.</h4><br>
                         <a href="'.base_url('/exchange').'">Start trading today!</a>';
                 } else {
+                    echo '<h4 class="card-title">Recent activity</h4><br>';
                     echo "<table class=\"table\">";
-                    echo "<thead><th colspan=\"3\">Recent Activity<th></thead>";
                     $max_displayed_rows = 3;
                     foreach (array_reverse($history) as $row) {
                         echo "</td><td>";
@@ -47,10 +49,15 @@
                     }
                     echo "</table>";
                 }
+                
             ?>
-                </div>
+                <a class="card-text" href='<?php echo base_url('/history') ?>'>
+                    <small class="text-muted">Show full transaction history</small>
+                </a>
+                </div></div>
                 <div class="col card">
-                    <p class="h4">Activity from the past week</p>
+                <div class="card-body">
+                    <h4 class="card-title">Activity from the past week</h4>
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
 
                     <canvas id="activityChart" width="400" height="400"></canvas>
@@ -58,7 +65,7 @@
                         var ctx = document.getElementById('activityChart');
                         var data = {
                             <?php
-                        echo "labels: ['".(date("d") - 6)."', '".(date("d") - 5)."', '".(date("d") - 4)."', '".(date("d") - 3)."', '".(date("d") - 2)."', '".(date("d") - 1)."', '".date("d")."'],";
+                        echo "labels: ['".(date("d") - 6)."', '".(date("d") - 5)."', '".(date("d") - 4)."', '".(date("d") - 3)."', '".(date("d") - 2)."', '".(date("d") - 1)."', '".(date("d") - 0)."'],";
                     ?>
                             datasets: [{
                                 label: '# of transactions',
@@ -101,11 +108,13 @@
                         });
                     </script>
                 </div>
-            </div>
+            </div></div>
             <div class="row">
                 <div class="col card">
-                    <p id="headline" class="h4 ">Announcements</p>
-                    <p id="story">Check out the site announcements here!</p>
+                <div class="card-body">
+                    <h4 class="card-title" id="headline">Announcements</h4>
+                    <p class="card-text" id="story">Check out the site announcements here!</p>
+                </div>
                 </div>
             </div>
         </div>

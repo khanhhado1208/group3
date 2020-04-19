@@ -1,3 +1,14 @@
+<style>
+.item {
+    opacity: 0.6;
+}
+
+.item:hover {
+    opacity: 1.0;
+    cursor: pointer;
+}
+</style>
+
 <div class="container">
     <br>
     <?= \Config\Services::validation()->listErrors(); ?>
@@ -5,19 +16,6 @@
             function showConfirmation(selected) {
                 document.getElementById("select").style.display = "none";
                 document.getElementById("confirm" + selected).style.display = "block";
-            }
-            function highlight(hover) {
-                document.getElementById(hover).style.opacity = 0.6;
-                if (hover == "dis") {
-                document.getElementById("dat").style.opacity = 1.0;
-                document.getElementById("del").style.opacity = 1.0;
-                } else if (hover == "del") {
-                document.getElementById("dat").style.opacity = 1.0;
-                document.getElementById("dis").style.opacity = 1.0;
-                } else if (hover == "dat") {
-                document.getElementById("dis").style.opacity = 1.0;
-                document.getElementById("del").style.opacity = 1.0;
-                }
             }
         </script>
         <div class="row">
@@ -50,7 +48,7 @@
             <h2 style="text-align: center;">I thought we were friends :(</h1>
             <h4 style="text-align: center;">We're sad to see you go, <?= $username ?>. If you change your mind you can always go <a href="<?php echo base_url('/profile') ?>">back</a></h2>
             <div class="row">
-                <div class="col card" id="dat" onmouseover="highlight('dat')" onclick="showConfirmation('dat')">
+                <div class="col card item" id="dat" onclick="showConfirmation('dat')">
                 <div class="card-body">
                     <p class="h4 card-title">Delete activity</p>
                     <p class="card-text text-success">Your activity will be wiped</p>
@@ -59,7 +57,7 @@
                     <p class="card-text text-danger">You will not be eligible for another sign up bonus</p>
                 </div>
                 </div>
-                <div class="col card" id="dis" onmouseover="highlight('dis')" onclick="showConfirmation('dis')">
+                <div class="col card item" id="dis" onclick="showConfirmation('dis')">
                 <div class="card-body">
                     <p class="h4 card-title">Disable account</p>
                     <p class="card-text text-success">Your account will be disabled</p>
@@ -67,7 +65,7 @@
                     <p class="card-text text-danger">Only admins can restore or delete disabled accounts</p>
                 </div>
                 </div>
-                <div class="col card" id="del" onmouseover="highlight('del')" onclick="showConfirmation('del')">
+                <div class="col card item" id="del" onclick="showConfirmation('del')">
                 <div class="card-body">
                     <p class="h4 card-title">Delete account</p>
                     <p class="card-text text-success">Your account will be permanently deleted</p>

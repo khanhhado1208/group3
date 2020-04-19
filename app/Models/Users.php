@@ -4,7 +4,7 @@ namespace App\Models;
 class Users extends Database
 {
     protected $table = 'users';
-    public $allowedFields = ['username', 'password', 'disabled'];
+    public $allowedFields = ['username', 'password', 'avatar', 'disabled'];
 
     public function addUser($username, $password)
     {
@@ -12,6 +12,7 @@ class Users extends Database
             [
                 'username' => $username,
                 'password' => $password,
+                'avatar' => 'img/default.jpg',
                 'disabled' => false
             ]
         );
@@ -85,6 +86,30 @@ class Users extends Database
         }
         return $user_stonks;
     }
+    //GET USER AVATAR
+    function getavatar($username)
+    {
+        $avatar = "img/default.jpg";
+        try {
+            $query = $this->db->table('users')->select('avatar')->where('username', $username)->get();
+            $avatar = $query->getRow()->avatar;
+        } catch (\Throwable $th) {
+            return "img/default.jpg";
+        }
+        return $avatar;
+    }
+    //SET USER AVATAR
+    function setavatar($username, $file)
+    {
+        try {
+            $query = $this->db->table('users')->select('user_id')->where('username', $username)->get();
+            $id = $query->getRow()->user_id;
+            $query = $this->db->table('users')->set('avatar', $file)->where('user_id', $id)->update();
+        } catch (\Throwable $th) {
+            return false;
+        }
+        return true;
+    }
     //DELETE USER
     function removeuser($username)
     {
@@ -93,6 +118,30 @@ class Users extends Database
             $id = $query->getRow()->user_id;
             $query = $this->db->table('transactions')->delete(['user_id' => $id]);
             $query = $this->db->table('users')->delete(['username' => $username]);
+        } catch (\Throwable $th) {
+            return false;
+        }
+        return true;
+    }
+    //DELETE USER ACTIVITY
+    function deleteinfo($username)
+    {
+        try {
+            $query = $this->db->table('users')->select('user_id')->where('username', $username)->get();
+            $id = $query->getRow()->user_id;
+            $query = $this->db->table('transactions')->delete(['user_id' => $id]);
+        } catch (\Throwable $th) {
+            return false;
+        }
+        return true;
+    }
+    //DISABLE ACCOUNT
+    function disable($username)
+    {
+        try {
+            $query = $this->db->table('users')->select('user_id')->where('username', $username)->get();
+            $id = $query->getRow()->user_id;
+            $query = $this->db->table('users')->set('disabled', true)->where('user_id', $id)->update();
         } catch (\Throwable $th) {
             return false;
         }

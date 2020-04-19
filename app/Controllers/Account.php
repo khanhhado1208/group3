@@ -143,14 +143,35 @@ class Account extends BaseController
         $error->setErrorState('success', 'Logged out');
         $pages->get('home');
     }
+    //Select user avatar
+    public function avatar()
+    {
+        $error = new Error();
+        $pages = new Pages();
+        $users = new Users();
+        if ($this->isLoggedIn()) {
+            $file = $this->request->getVar('file');
+            $success = $users->setavatar($_SESSION['username'] ,$file);
+            if ($success) {
+                $error->setErrorState('success', 'Avatar changed');
+                $pages->get('dashboard');
+            } else {
+                $error->setErrorState('danger', 'Unable to change avatar');
+                $pages->get('dashboard');
+            }
+        } else {
+            $error->setErrorState('danger', 'Not signed in');
+            $pages->get('home');
+        }
+    }
     //Delete user
     public function deleteuser()
     {
-        $username = $_SESSION['username'];
         $pages = new Pages();
         $error = new Error();
         $users = new Users();
         if ($this->isLoggedIn(true)) {
+            $username = $_SESSION['username'];
             $users->removeuser($username);
             unset($_SESSION['logged_in']);
             unset($_SESSION['username']);
@@ -163,17 +184,40 @@ class Account extends BaseController
             $pages->get('login');
         }
     }
-
+    //Delete user info
     public function deleteuserinfo() {
         $pages = new Pages();
         $error = new Error();
-        $error->setErrorState('danger', 'Feature not implemented');
-        $pages->get('profile');
+        $users = new Users();
+        if ($this->isLoggedIn(true)) {
+            $username = $_SESSION['username'];
+            $users->deleteinfo($username);
+            $error->setErrorState('success', 'Your activity has been deleted');
+            $pages->get('home');
+        } else {
+            $error->setErrorState('danger', 'Could not authenticate');
+            unset($_SESSION['logged_in']);
+            unset($_SESSION['username']);
+            $pages->get('login');
+        }
     }
+    //Disable account
     public function disableaccount() {
         $pages = new Pages();
         $error = new Error();
-        $error->setErrorState('danger', 'Feature not implemented');
-        $pages->get('profile');
+        $users = new Users();
+        if ($this->isLoggedIn(true)) {
+            $username = $_SESSION['username'];
+            $users->disable($username);
+            unset($_SESSION['logged_in']);
+            unset($_SESSION['username']);
+            $error->setErrorState('success', 'Your account has been disabled');
+            $pages->get('home');
+        } else {
+            $error->setErrorState('danger', 'Could not authenticate');
+            unset($_SESSION['logged_in']);
+            unset($_SESSION['username']);
+            $pages->get('login');
+        }
     }
 }

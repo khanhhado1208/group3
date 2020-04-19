@@ -14,6 +14,7 @@ class Tables extends Database
                 `user_id` INT NOT NULL AUTO_INCREMENT UNIQUE,
                 `username` varchar(255) NOT NULL UNIQUE,
                 `password` varchar(255) NOT NULL,
+                `avatar` varchar(255) NOT NULL,
                 `disabled` BOOLEAN NOT NULL,
                 `disabled_reason` varchar(255),
                 `create_date` TIMESTAMP NOT NULL,

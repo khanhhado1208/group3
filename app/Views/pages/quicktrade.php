@@ -4,23 +4,9 @@
     <div class="row">
         <div class="col-md-9">
             <form action="<?php echo base_url('/TX/quicktrade') ?>" method="post" accept-charset="utf-8">
-                <p class="h6" id="stonktext">Select the stonk you would like to trade:</p>
+                <p class=h3 id="stonk"></p>
+                <p class="h6" id="stonktext"></p>
                 <div class="form-group">
-
-                    <div class="dropdown d-inline-block">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="stonk" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Choose stonk
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-
-                            <?php
-                            foreach ($stonkproperties as $stonk) {
-                                echo '<button class="dropdown-item" onclick="selectStonk('.$stonk->stonk_id.')" type="button">'.$stonk->stonk_name.'</button>';
-                            }
-                            ?>
-
-                        </div>
-                    </div>
 
                     <div class="dropdown d-inline-block">
                         <button class="btn btn-secondary dropdown-toggle" hidden type="button" id="operationdd" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -72,7 +58,7 @@
 
     //INITIALIZE AND PARSE DATA FROM PHP
     let userBalance = <?php
-        if(is_numeric($balance)) {
+        if (is_numeric($balance)) {
             echo $balance;
         } else {
             echo 0;
@@ -92,44 +78,37 @@
 
     let stonkPrices = <?php echo json_encode($pricenow) ?>;
 
-    //CHECK URL STRING FOR DEFAULT SELECTION
+    //CHECK URL STRING FOR STONK SELECTION
     let url = window.location.href;
-    let segment = url.substr(url.lastIndexOf('/') + 1);
-    if (segment != "quicktrade") {
-        selectStonk(parseInt(segment));
-    }
-
-    //STONK DROPDOWN SELECTION
-    function selectStonk(index) {
+    let index = url.substr(url.lastIndexOf('/') + 1);
+    if (index != "quicktrade") {
         if (!(index in stonkPrices)) {
-            hideInputs();
-            return;
-        }
-
-        stonkPrice = stonkPrices[index];
-        stonkidElement.value = index;
-        stonkElement.innerHTML = stonkNames[index];
-        hideInputs();
-
-        if (userStonks[index] > 0) {
-            stonkText.innerHTML = "You currently have " + userStonks[index] + " of this stonk in your wallet.";
-            sellElement.disabled = false;
-            showInputs();
-            selectOperation('sell');
+            stonkElement.innerHTML = "Unknown Stonk";
+            stonkText.innerHTML = "The specified stonk was not found.";
         } else {
-            stonkText.innerHTML = "You don't have any of this stonk in your wallet yet.";
-            sellElement.disabled = true;
-        }
+            stonkPrice = stonkPrices[index];
+            stonkidElement.value = index;
+            stonkElement.innerHTML = stonkNames[index];
 
-        if (userBalance < stonkPrice) {
-            stonkText.innerHTML += " Not enough funds to acquire at current price of " + stonkPrice + " per stonk.";
-            buyElement.disabled = true;
-        } else {
-            buyElement.disabled = false;
-            selectOperation('buy');
-            showInputs();
-        }
+            if (userStonks[index] > 0) {
+                stonkText.innerHTML = "You currently have " + userStonks[index] + " of this stonk in your wallet.";
+                sellElement.disabled = false;
+                showInputs();
+                selectOperation('sell');
+            } else {
+                stonkText.innerHTML = "You don't have any of this stonk in your wallet yet.";
+                sellElement.disabled = true;
+            }
 
+            if (userBalance < stonkPrice) {
+                stonkText.innerHTML += " Not enough funds to acquire at current price of " + stonkPrice + " per stonk.";
+                buyElement.disabled = true;
+            } else {
+                buyElement.disabled = false;
+                selectOperation('buy');
+                showInputs();
+            }
+        }
     }
 
     //BUY OR SELL DROPDOWN SELECTION
@@ -153,17 +132,7 @@
         operationElement.value = type;
     }
 
-    //ELEMENT VISIBILITY FUNCTIONS
-    function hideInputs() {
-        operationddElement.hidden = true;
-        amountElement.hidden = true;
-        valueElement.hidden = true;
-        for (let i = 0; i < factorElements.length; i++) {
-            factorElements[i].hidden = true;
-        }
-        sendElement.hidden = true;
-    }
-
+    //ELEMENT VISIBILITY FUNCTION
     function showInputs() {
         operationddElement.hidden = false;
         amountElement.hidden = false;
